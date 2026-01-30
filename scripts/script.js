@@ -1,9 +1,7 @@
-
-
 async function main() {
 
 
-    // permet de récuperé les données d'une requette en attendant sa réponse
+    
     async function getData(url) {
         const response = await fetch(url)
         const data = await response.json()
@@ -20,13 +18,3 @@ async function main() {
 }
 
 main()
-
-
-
-// async function main() {
-//   const response = await fetch(url);
-//   const data = await response.json();
-//   console.log(data);
-// }
-
-// main();
