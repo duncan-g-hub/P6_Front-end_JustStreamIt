@@ -11,10 +11,8 @@
     <header>
         
         <div id="banner">
-            <img src="logo" alt="logo JustStreamIt">
-
+            <img id="logo" src="../image/logo.png" alt="logo JustStreamIt">
             <h1>Vidéos à la demande</h1>
-
         </div>
 
     </header>
@@ -22,37 +20,88 @@
     <main>
         <section id="bestMovie">
             <h2>Meilleur film</h2>
-            <!-- Détails film : Image Titre synopsis bouton détails -->
+            <div id="bestMovieFrame">
+                <!-- Détails film : Image Titre synopsis bouton détails -->
+                <img src="https://picsum.photos/240/320" alt="">
+                <div id="movieContent">
+                    <h2>Titre Film</h2>
+                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Earum quae provident dolores sit totam corporis ea, dolore rem aliquam vero soluta sapiente natus ad quis exercitationem quasi perferendis quo qui?</p>
+                    <button id="detailsRedButton">Détails</button>
+                </div>
+            </div>
         </section>
 
 
         <section id="bestMovies">
             <h2>Films les mieux notés</h2>
-            <!-- Détails film : Image Titre bouton détails -->
+            <div id="bestMoviesFrame">
+                <!-- Détails film : Image Titre bouton détails -->
+                <div id="movieBanner">
+                    <p id="movieTitle">Titre film</p>
+                    <button id="details secondary">Détails</button>
+                    <img src="https://picsum.photos/240/320" alt="">
+                </div>
+            </div>
+            <button id="see">Voir plus</button>
         </section>
 
 
         <section id="firstCategory">
             <h2>Nom Catégorie 1</h2>
-            <!-- Détails film : Image Titre bouton détails -->
+            <div id="categoryMoviesFrame">
+                <!-- Détails film : Image Titre bouton détails -->
+                <img src="https://picsum.photos/240/320" alt="">
+                <button id="details secondary">Détails</button>
+            </div>
+            <button id="see">Voir plus</button>
         </section>
 
         <section id="secondCategory">
             <h2>Nom Catégorie 2 </h2>
-            <!-- Détails film : Image Titre bouton détails -->
+            <div id="categoryMoviesFrame">
+                <!-- Détails film : Image Titre bouton détails -->
+                <img src="https://picsum.photos/240/320" alt="">
+                <button id="details secondary">Détails</button>
+            </div>
+            <button id="see">Voir plus</button>
         </section>
 
         <section id="otherCategory">
             <h2>Autres:</h2>
+
             <!-- Menu déroulant -->
+            <form method="get" action="">
+                <select name="listCategory" id="listCategory">
+                    <option value="category1">1</option>
+                    <option value="category2">2</option>
+                    <option value="category3">3</option>
+                    <option value="category4">4</option>
+                </select>
+            </form>
 
-            <!-- Détails film : Image Titre bouton détails -->
+            <div id="categoryMoviesFrame">
+                <!-- Détails film : Image Titre bouton détails -->
+                <button id="details secondary">Détails</button>
+            </div>
 
+            <button id="see">Voir plus</button>
         </section>
     </main>
     
     <div id="modalWindow">
         <!-- Pop up -->
+        <h1>Titre</h1>
+        <h2>Date - Genres</h2>
+        <h2>Classification - Durée (Pays d'origine)</h2>
+        <h2>Score IMDB : Note</h2>
+        <h2>Recettes</h2>
+        <p class="bold big">Réalisé par :</h3>
+        <p class="big">Réalisateurs</p>
+        <p class="big">Résumé</p>
+        <img src="https://picsum.photos/240/320" alt="">
+        <p class="bold little">Avec :</p>
+        <p class="little">Acteurs</p>
+        <button id="close">Fermer</button>
         <!-- Détails film : Image ; Titre ; Genres ; Date sortie ; Classification (10+ 18+); Score IMDB; Liste Acteurs ; Durée ; pays origine ; recette box office ; résumé film ; bouton fermer -->
 
     </div>

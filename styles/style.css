@@ -1,0 +1,71 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 80px;
+}
+
+
+#banner {
+    display: flex;
+    align-items: center;
+    background-color: #8193a7;
+    border: 2px solid black;
+}
+
+#logo {
+    width: 150px;
+    margin: 25px;
+}
+
+h1 {
+    color: white;
+    margin: 25px;
+    font-weight: 400;
+    font-size: 40px;
+}
+
+
+h2 {
+    margin: 25px 0 20px 0;
+    font-weight: 800;
+    font-size: 50px;
+}   
+
+
+#bestMovieFrame {
+    display: flex;
+    border: 5px solid black;
+    padding: 10px ;
+}
+
+#movieContent {
+    display: flex;
+    flex-direction: column;
+    margin: 5px 5px 5px 40px;
+}
+
+#movieContent h2 {
+    margin: 0 0 20px 0;
+}
+
+p {
+    font-size: 30px;
+    margin: 5px;
+}
+
+#detailsRedButton {
+    align-self: flex-end;
+    height: 60px;
+    margin: 10px 20px 20px 10px;
+    padding: 18px 40px 18px 40px;
+    color: white;
+    font-size: 24px;
+    font-weight: 700;
+    background-color: red;
+    border-radius: 25px;
+    border: none;
+}
