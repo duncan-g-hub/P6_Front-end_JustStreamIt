@@ -275,6 +275,14 @@ button:hover {
 
 }
 
+#poster img {
+    width: 240px;
+    height: 320px;
+    object-fit: contain;
+    object-position: center;
+}
+
+
 #close:hover {
     cursor: pointer;
     border:2px solid red;
