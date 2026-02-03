@@ -7,19 +7,21 @@ async function getData(url) {
 }
 
 
-
 async function getMovieIds(url, nbMovieIds) {
     const data = await getData(url)
-    let ids = []
-    for (let i = 0; i < nbMovieIds; i++) {
+    const ids = []
+
+    const max = Math.min(nbMovieIds, data.results.length)
+    for (let i = 0; i < max; i++) {
         ids.push(data.results[i].id)
     }
     return ids 
+
 }
 
 
 async function getInfosFromIds(ids) {
-    let moviesInfos = []
+    const moviesInfos = []
     for (i = 0; i < ids.length; i++) {
         const urlId = `http://localhost:8000/api/v1/titles/${ids[i]}`
         moviesInfos.push(await getMovieInfos(urlId))
@@ -28,56 +30,76 @@ async function getInfosFromIds(ids) {
 }
 
 
-
-async function feedBestMoviesInOtherCategory(categoryName) {
-    const urlFilterBestMoviesInCategory = `http://localhost:8000/api/v1/titles?sort_by=-imdb_score&genre=${categoryName}&page_size=6`
-    const ids = await getMovieIds(urlFilterBestMoviesInCategory, 6)
-    const moviesInfos = await getInfosFromIds(ids)
-
-    const tagBestMoviesInCategory = document.getElementById("otherCategory")
-    tagBestMoviesInCategory.insertAdjacentHTML("beforeend", 
-        `<div id="${categoryName}Category">
-            <div id="${categoryName}MoviesFrame" class="moviesFrame"></div>
-            <button class="hide seeMore" id="seeBtn" >Voir plus</button>
-        </div>`)    
-
-    for (i = 0; i < moviesInfos.length; i++){
-        let categoryMoviesFrameContent = `
-                <div id="movieCard" class="image${i}">
-                    <img src="" alt="">
-                    <div id="movieBanner">
-                        <h3 id="movieTitle">${moviesInfos[i].title}</h3>
-                        <button class="detailsButton" id="detailsGreyButton">Détails</button>
-                    </div>
-                </div>`
-        let tagMoviesFrame = document.querySelector(`#${categoryName}MoviesFrame`)
-        tagMoviesFrame.insertAdjacentHTML("beforeend", categoryMoviesFrameContent)
-
-        const tagImage = document.querySelector(`#${categoryName}MoviesFrame .image${i} img`)
-        tagImage.onerror = () => {
-        tagImage.onerror = null
-        tagImage.src = "https://picsum.photos/360/480"
-        }
-        tagImage.src = moviesInfos[i].imageUrl
-        tagImage.alt = moviesInfos[i].title + " image"
-    }
+async function getInfosFromFirstId(url) {
+    const ids = await getMovieIds(url, 1)
+    const movieInfos = await getMovieInfos(`http://localhost:8000/api/v1/titles/${ids[0]}`)
+    return movieInfos
 }
 
 
+async function getMovieInfos(url) {
+    const data = await getData(url)
 
-async function feedBestMoviesInCategory(categoryName) {
-    const urlFilterBestMoviesInCategory = `http://localhost:8000/api/v1/titles?sort_by=-imdb_score&genre=${categoryName}&page_size=6`
-    const ids = await getMovieIds(urlFilterBestMoviesInCategory, 6)
+    let rated = ""
+    if (data.rated === "Not rated or unkown rating"){
+        rated = "Classification inconnue"
+    } else {
+        rated = data.rated
+    }
+    let grossIncome = ""
+    if (data.worldwide_gross_income){
+        grossIncome = data.worldwide_gross_income
+    } else {
+        grossIncome = "Inconnu"
+    }
+    
+    let movieInfos = {
+        title: data.original_title,
+        summary: data.description,
+        longSummary: data.long_description,
+        imageUrl: data.image_url,
+        year: data.year,
+        genres: data.genres.join(", "), 
+        rated: rated,
+        duration: data.duration,
+        countries: data.countries.join(", "), 
+        imdbScore: data.imdb_score,
+        grossIncome: grossIncome,
+        directors: data.directors.join(", "),
+        actors: data.actors.join(", ")
+    }
+    return movieInfos
+}
+
+
+function setAlternativeImage(tagImage, urlImage) {
+    tagImage.onerror = () => {
+        tagImage.onerror = null
+        tagImage.src = "https://picsum.photos/360/480"
+        }
+    tagImage.src = urlImage
+}
+
+
+async function feedBestMoviesInCategory(categoryName, whereToAdd, nbMovies) {
+    const urlFilterBestMoviesInCategory = `http://localhost:8000/api/v1/titles?sort_by=-imdb_score&genre=${categoryName}&page_size=${nbMovies}`
+    const ids = await getMovieIds(urlFilterBestMoviesInCategory, nbMovies)
     const moviesInfos = await getInfosFromIds(ids)
-
-    const tagBestMoviesInCategory = document.getElementById("bestMoviesInCategory")
-    tagBestMoviesInCategory.insertAdjacentHTML("beforeend", 
+    const tagBestMoviesInCategory = document.getElementById(`${whereToAdd}`)
+    if (whereToAdd === "otherCategory") {
+        tagBestMoviesInCategory.insertAdjacentHTML("beforeend", 
+        `<div id="${categoryName}Category" class="categoryChosen">
+            <div id="${categoryName}MoviesFrame" class="moviesFrame"></div>
+            <button class="hide seeMore" id="seeBtn" >Voir plus</button>
+        </div>`)   
+    } else {
+        tagBestMoviesInCategory.insertAdjacentHTML("beforeend", 
         `<div id="${categoryName}Category">
             <h2>${categoryName}</h2>
             <div id="${categoryName}MoviesFrame" class="moviesFrame"></div>
             <button class="hide seeMore" id="seeBtn" >Voir plus</button>
-        </div>`)    
-
+        </div>`)   
+    }
     for (i = 0; i < moviesInfos.length; i++){
         let categoryMoviesFrameContent = `
                 <div id="movieCard" class="image${i}">
@@ -87,27 +109,20 @@ async function feedBestMoviesInCategory(categoryName) {
                         <button class="detailsButton" id="detailsGreyButton">Détails</button>
                     </div>
                 </div>`
-        let tagMoviesFrame = document.querySelector(`#${categoryName}MoviesFrame`)
+        let tagMoviesFrame = document.querySelector(`#${whereToAdd} #${categoryName}MoviesFrame`)
         tagMoviesFrame.insertAdjacentHTML("beforeend", categoryMoviesFrameContent)
-
-        const tagImage = document.querySelector(`#${categoryName}MoviesFrame .image${i} img`)
-        tagImage.onerror = () => {
-        tagImage.onerror = null
-        tagImage.src = "https://picsum.photos/360/480"
-        }
-        tagImage.src = moviesInfos[i].imageUrl
+        
+        let tagImage = document.querySelector(`#${whereToAdd} #${categoryName}MoviesFrame .image${i} img`)
+        setAlternativeImage(tagImage, moviesInfos[i].imageUrl)
         tagImage.alt = moviesInfos[i].title + " image"
     }
 }
 
 
 
-
-
-
-async function feedBestMovies() {
-    const urlFilterBestMovies = "http://localhost:8000/api/v1/titles/?sort_by=-imdb_score&page_size=7"
-    const ids = await getMovieIds(urlFilterBestMovies, 7)
+async function feedBestMovies(nbMovies) {
+    const urlFilterBestMovies = `http://localhost:8000/api/v1/titles/?sort_by=-imdb_score&page_size=${nbMovies+1}`
+    const ids = await getMovieIds(urlFilterBestMovies, nbMovies+1)
     const moviesInfos = await getInfosFromIds(ids)
     for (i = 1; i < moviesInfos.length; i++){
         let bestMoviesFrameContent = `
@@ -121,31 +136,10 @@ async function feedBestMovies() {
         let tagMoviesFrame = document.querySelector("#bestMoviesFrame")
         tagMoviesFrame.insertAdjacentHTML("beforeend", bestMoviesFrameContent)
 
-        const tagImage = document.querySelector(`.image${i} img`)
-        tagImage.onerror = () => {
-        tagImage.onerror = null
-        tagImage.src = "https://picsum.photos/360/480"
-        }
-        tagImage.src = moviesInfos[i].imageUrl
+        let tagImage = document.querySelector(`.image${i} img`)
+        setAlternativeImage(tagImage, moviesInfos[i].imageUrl)
         tagImage.alt = moviesInfos[i].title + " image"
     }
-}
-
-
-
-
-
-
-
-
-
-async function getInfosFromFirstId(url) {
-    let ids = await getMovieIds(url, 1)
-    let id = ids[0]
-
-    const urlFirstId = `http://localhost:8000/api/v1/titles/${id}`
-    let movieInfos = await getMovieInfos(urlFirstId)
-    return movieInfos
 }
 
 
@@ -161,11 +155,7 @@ async function feedBestMovie() {
     tagSummary.textContent = movieInfos.summary
 
     const tagImage = document.querySelector("#movieImage img")
-    tagImage.onerror = () => {
-    tagImage.onerror = null
-    tagImage.src = "https://picsum.photos/360/480"
-    }
-    tagImage.src = movieInfos.imageUrl
+    setAlternativeImage(tagImage, movieInfos.imageUrl)
     tagImage.alt = movieInfos.title + " image"
 }
 
@@ -191,86 +181,65 @@ async function feedModalWindow() {
     tagActors.textContent = movieInfos.actors
 
     const tagImage = document.querySelector("#poster img")
-    tagImage.onerror = () => {
-    tagImage.onerror = null
-    tagImage.src = "https://picsum.photos/360/480"
-    }
-    tagImage.src = movieInfos.imageUrl
+    setAlternativeImage(tagImage, movieInfos.imageUrl)
     tagImage.alt = movieInfos.title + " image"
 }
 
 
-
-
-
-
-async function getMovieInfos(url) {
-    const data = await getData(url)
-
-    let title = data.original_title
-    let summary = data.description
-    let longSummary = data.long_description
-    let imageUrl = data.image_url
-    let year = data.year
-    let genres = data.genres.join(", ")
-
-    let rated = ""
-    if (data.rated === "Not rated or unkown rating"){
-        rated = "Classification inconnue"
-    } else {
-        rated = data.rated
+async function getCategories() {
+    const data = await getData("http://localhost:8000/api/v1/genres/?page_size=25")
+    const categories = []
+    for (let i = 0; i < data.results.length; i++) {
+        categories.push(data.results[i].name) 
     }
-
-    let duration = data.duration
-    let countries = data.countries.join(", ")
-    let imdbScore = data.imdb_score
-
-    let grossIncome = ""
-    if (data.worldwide_gross_income){
-        grossIncome = data.worldwide_gross_income
-    } else {
-        grossIncome = "Inconnu"
-    }
-
-    let directors = data.directors.join(", ")
-    let actors = data.actors.join(", ")
-
-    
-    let movieInfos = {
-        title: title,
-        summary: summary,
-        longSummary: longSummary,
-        imageUrl: imageUrl,
-        year: year,
-        genres: genres, 
-        rated: rated,
-        duration: duration,
-        countries: countries, 
-        imdbScore: imdbScore,
-        grossIncome:grossIncome,
-        directors: directors,
-        actors: actors
-    }
-    return movieInfos
+    return categories
 }
 
 
+function displayCategoriesChoice(categories) {
+    const tagCategoryChoice = document.getElementById("listCategory")
+    for (i = 0; i < categories.length; i++) {
+        tagCategoryChoice.insertAdjacentHTML("beforeend", 
+            `<option value="${categories[i]}">${categories[i]}</option>`
+        )
+    }
+
+}
 
 
+async function initChosenCategory(nbMovies) {
+    const tagCategoryChoice = document.getElementById("listCategory")
+    await feedBestMoviesInCategory(tagCategoryChoice.value, "otherCategory", nbMovies)
 
+    tagCategoryChoice.addEventListener("change", async () => {
+        const chosenCategory = tagCategoryChoice.value
+
+        const oldMoviesCategory = document.querySelector(".categoryChosen")
+        oldMoviesCategory.remove()
+
+        await feedBestMoviesInCategory(chosenCategory, "otherCategory", nbMovies)
+    })
+}
 
 
 async function feedHtml(){
+    const nbMoviesInCategory = 6
     await feedBestMovie()
-    await feedBestMovies()
+    await feedBestMovies(nbMoviesInCategory)
+
+
+    await feedBestMoviesInCategory("Sci-Fi", "firstCategory", nbMoviesInCategory)
+    await feedBestMoviesInCategory("Adventure", "secondCategory", nbMoviesInCategory)
+
+    const categories = await getCategories()
+    displayCategoriesChoice(categories)
+
+    initChosenCategory(nbMoviesInCategory)
+
+
     await feedModalWindow()
-    await feedBestMoviesInCategory("Sci-Fi")
-    await feedBestMoviesInCategory("Adventure")
 
 
-
-
-    await feedBestMoviesInOtherCategory("Comedy")
 }
 
 
