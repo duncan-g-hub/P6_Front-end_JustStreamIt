@@ -165,19 +165,19 @@ async function feedModalWindow() {
     const urlFilterBestMovies = "http://localhost:8000/api/v1/titles/?sort_by=-imdb_score"
     let movieInfos = await getInfosFromFirstId(urlFilterBestMovies)
 
-    const tagTitle = document.querySelector("#modalWindow #infos h2")
+    const tagTitle = document.querySelector(".modalWindow #infos h2")
     tagTitle.textContent = movieInfos.title
 
-    const tagInfos = document.querySelector("#modalWindow #infos h3")
+    const tagInfos = document.querySelector(".modalWindow #infos h3")
     tagInfos.innerHTML = `${movieInfos.year} - ${movieInfos.genres} <br>${movieInfos.rated} - ${movieInfos.duration}minutes (${movieInfos.countries}) <br>Score IMDB : ${movieInfos.imdbScore} <br>Recettes au box-office : ${movieInfos.grossIncome}`
 
-    const tagDirectors = document.querySelector("#modalWindow #infos #directors")
+    const tagDirectors = document.querySelector(".modalWindow #infos #directors")
     tagDirectors.textContent = movieInfos.directors
 
-    const tagSummary = document.querySelector("#modalWindow #infos #summary")
+    const tagSummary = document.querySelector(".modalWindow #infos #summary")
     tagSummary.textContent = movieInfos.longSummary
 
-    const tagActors = document.querySelector("#modalWindow #infos #actors")
+    const tagActors = document.querySelector(".modalWindow #infos #actors")
     tagActors.textContent = movieInfos.actors
 
     const tagImage = document.querySelector("#poster img")
