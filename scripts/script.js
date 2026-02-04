@@ -54,6 +54,7 @@ async function getMovieInfos(url) {
     }
     
     let movieInfos = {
+        id: data.id,
         title: data.original_title,
         summary: data.description,
         longSummary: data.long_description,
@@ -90,29 +91,29 @@ async function feedBestMoviesInCategory(categoryName, whereToAdd, nbMovies) {
         tagBestMoviesInCategory.insertAdjacentHTML("beforeend", 
         `<div id="${categoryName}Category" class="categoryChosen">
             <div id="${categoryName}MoviesFrame" class="moviesFrame"></div>
-            <button class="hide seeMore" id="seeBtn" >Voir plus</button>
+            <button class="hide seeBtn" >Voir plus</button>
         </div>`)   
     } else {
         tagBestMoviesInCategory.insertAdjacentHTML("beforeend", 
         `<div id="${categoryName}Category">
             <h2>${categoryName}</h2>
             <div id="${categoryName}MoviesFrame" class="moviesFrame"></div>
-            <button class="hide seeMore" id="seeBtn" >Voir plus</button>
+            <button class="hide seeBtn" >Voir plus</button>
         </div>`)   
     }
     for (i = 0; i < moviesInfos.length; i++){
         let categoryMoviesFrameContent = `
-                <div id="movieCard" class="image${i}">
+                <div id="image${i}" class="movieCard">
                     <img src="" alt="">
-                    <div id="movieBanner">
-                        <h3 id="movieTitle">${moviesInfos[i].title}</h3>
-                        <button class="detailsButton" id="detailsGreyButton">Détails</button>
+                    <div class="movieBanner">
+                        <h3 class="movieTitle">${moviesInfos[i].title}</h3>
+                        <button class="detailsButton detailsGreyButton" id="${moviesInfos[i].id}">Détails</button>
                     </div>
                 </div>`
         let tagMoviesFrame = document.querySelector(`#${whereToAdd} #${categoryName}MoviesFrame`)
         tagMoviesFrame.insertAdjacentHTML("beforeend", categoryMoviesFrameContent)
         
-        let tagImage = document.querySelector(`#${whereToAdd} #${categoryName}MoviesFrame .image${i} img`)
+        let tagImage = document.querySelector(`#${whereToAdd} #${categoryName}MoviesFrame #image${i} img`)
         setAlternativeImage(tagImage, moviesInfos[i].imageUrl)
         tagImage.alt = moviesInfos[i].title + " image"
     }
@@ -126,17 +127,17 @@ async function feedBestMovies(nbMovies) {
     const moviesInfos = await getInfosFromIds(ids)
     for (i = 1; i < moviesInfos.length; i++){
         let bestMoviesFrameContent = `
-                <div id="movieCard" class="image${i}">
+                <div id="image${i}" class="movieCard">
                     <img src="" alt="">
-                    <div id="movieBanner">
-                        <h3 id="movieTitle">${moviesInfos[i].title}</h3>
-                        <button class="detailsButton" id="detailsGreyButton">Détails</button>
+                    <div class="movieBanner">
+                        <h3 class="movieTitle">${moviesInfos[i].title}</h3>
+                        <button class="detailsButton detailsGreyButton" id="${moviesInfos[i].id}">Détails</button>
                     </div>
                 </div>`
         let tagMoviesFrame = document.querySelector("#bestMoviesFrame")
         tagMoviesFrame.insertAdjacentHTML("beforeend", bestMoviesFrameContent)
 
-        let tagImage = document.querySelector(`.image${i} img`)
+        let tagImage = document.querySelector(`#image${i} img`)
         setAlternativeImage(tagImage, moviesInfos[i].imageUrl)
         tagImage.alt = moviesInfos[i].title + " image"
     }
@@ -157,30 +158,32 @@ async function feedBestMovie() {
     const tagImage = document.querySelector("#movieImage img")
     setAlternativeImage(tagImage, movieInfos.imageUrl)
     tagImage.alt = movieInfos.title + " image"
+
+    const tagButton = document.querySelector("#movieContent button")
+    tagButton.id = movieInfos.id
 }
 
 
 
-async function feedModalWindow() {
-    const urlFilterBestMovies = "http://localhost:8000/api/v1/titles/?sort_by=-imdb_score"
-    let movieInfos = await getInfosFromFirstId(urlFilterBestMovies)
+async function feedModalWindow(urlMovie) {
+    let movieInfos = await getMovieInfos(urlMovie)
 
-    const tagTitle = document.querySelector(".modalWindow #infos h2")
+    const tagTitle = document.querySelector("#modalWindow h2")
     tagTitle.textContent = movieInfos.title
 
-    const tagInfos = document.querySelector(".modalWindow #infos h3")
+    const tagInfos = document.querySelector("#modalWindow h3")
     tagInfos.innerHTML = `${movieInfos.year} - ${movieInfos.genres} <br>${movieInfos.rated} - ${movieInfos.duration}minutes (${movieInfos.countries}) <br>Score IMDB : ${movieInfos.imdbScore} <br>Recettes au box-office : ${movieInfos.grossIncome}`
 
-    const tagDirectors = document.querySelector(".modalWindow #infos #directors")
+    const tagDirectors = document.getElementById("directors")
     tagDirectors.textContent = movieInfos.directors
 
-    const tagSummary = document.querySelector(".modalWindow #infos #summary")
+    const tagSummary = document.getElementById("summary")
     tagSummary.textContent = movieInfos.longSummary
 
-    const tagActors = document.querySelector(".modalWindow #infos #actors")
+    const tagActors = document.getElementById("actors")
     tagActors.textContent = movieInfos.actors
 
-    const tagImage = document.querySelector("#poster img")
+    const tagImage = document.querySelector("#modalImage img")
     setAlternativeImage(tagImage, movieInfos.imageUrl)
     tagImage.alt = movieInfos.title + " image"
 }
@@ -210,7 +213,7 @@ function displayCategoriesChoice(categories) {
 async function initChosenCategory(nbMovies) {
     const tagCategoryChoice = document.getElementById("listCategory")
     await feedBestMoviesInCategory(tagCategoryChoice.value, "otherCategory", nbMovies)
-
+    initDetailsButtons()
     tagCategoryChoice.addEventListener("change", async () => {
         const chosenCategory = tagCategoryChoice.value
 
@@ -218,15 +221,47 @@ async function initChosenCategory(nbMovies) {
         oldMoviesCategory.remove()
 
         await feedBestMoviesInCategory(chosenCategory, "otherCategory", nbMovies)
+
+        initDetailsButtons()
     })
 }
+
+
+function closeModalWindow() {
+    const tagCloseButton = document.getElementById("closeBtn")
+    const tagModalWindowBg = document.getElementById("modalWindowBackground")
+    tagCloseButton.addEventListener("click", () => {
+        tagModalWindowBg.classList.add("hide")
+    })
+}
+
+
+function displayModalWindow() {
+    const tagModalWindowBg = document.getElementById("modalWindowBackground")
+    tagModalWindowBg.classList.remove("hide")
+    closeModalWindow()
+    
+}
+
+
+function initDetailsButtons() {
+    const tagsDetailsButtons = document.querySelectorAll(".detailsButton")
+    for (let i = 0; i < tagsDetailsButtons.length; i++){
+        tagsDetailsButtons[i].addEventListener("click", async () => {
+            let url = `http://localhost:8000/api/v1/titles/${tagsDetailsButtons[i].id}`
+            await feedModalWindow(url)
+            displayModalWindow()
+            
+        })
+    }
+}
+
 
 
 async function feedHtml(){
     const nbMoviesInCategory = 6
     await feedBestMovie()
     await feedBestMovies(nbMoviesInCategory)
-
 
     await feedBestMoviesInCategory("Sci-Fi", "firstCategory", nbMoviesInCategory)
     await feedBestMoviesInCategory("Adventure", "secondCategory", nbMoviesInCategory)
@@ -236,8 +271,10 @@ async function feedHtml(){
 
     initChosenCategory(nbMoviesInCategory)
 
+    initDetailsButtons()
 
-    await feedModalWindow()
+    
+    
 
 
 }

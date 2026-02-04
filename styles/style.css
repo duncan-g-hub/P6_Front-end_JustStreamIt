@@ -12,7 +12,8 @@ body {
 }
 
 
-.banner {
+
+#banner {
     display: flex;
     align-items: center;
     background-color: #8193a7;
@@ -24,6 +25,8 @@ body {
     margin: 25px;
 }
 
+
+
 h1 {
     color: white;
     margin: 25px;
@@ -32,13 +35,13 @@ h1 {
     font-style: Light;
 }
 
-
 h2 {
-    margin: 25px 0 20px 0;
+    margin: 30px 0 15px 0;
     font-weight: 600;
     font-size: 44px;
     font-style: SemiBold;
 }   
+
 
 
 #bestMovieFrame {
@@ -47,7 +50,8 @@ h2 {
     padding: 10px;
 }
 
-/* Adapter l'image au container */
+
+
 #movieImage {
     min-width: 240px;
     min-height: 320px;
@@ -57,7 +61,6 @@ h2 {
     height: 100%;
     object-fit: cover;
 }
-
 
 #movieContent {
     display: flex;
@@ -76,7 +79,9 @@ h2 {
     font-weight: 200;
 }
 
-#detailsRedButton {
+
+
+.detailsRedButton {
     align-self: flex-end;
     height: 60px;
     margin: 10px 20px 20px 10px;
@@ -90,7 +95,7 @@ h2 {
     border: none;
 }
 
-#detailsRedButton:hover {
+.detailsRedButton:hover {
     cursor: pointer;
     border:2px solid red;
     padding: 14px 38px 14px 38px;
@@ -99,28 +104,28 @@ h2 {
 }
 
 
+
 .moviesFrame {
     display: flex;
-    justify-content: space-between;
-    
+    justify-content: center;
     flex-wrap: wrap;
 }
 
-#movieCard {
+.movieCard {
     position: relative;
     display: flex;
-    width: 240px;
-    height: 240px;
-    margin: 10px;
-    margin-bottom: 50px;
+    width: 245px;
+    height: 245px;
+    margin: 20px;
+
 }
 
-@media screen and (min-width: 1200px) {#movieCard {
+@media screen and (min-width: 1299px) {.movieCard {
     width: 330px;
     height: 330px;
 }}
 
-#movieBanner {
+.movieBanner {
     display: flex;
     flex-direction: column;
     align-self: center;
@@ -130,7 +135,7 @@ h2 {
     width: 100%;
 }
 
-#movieCard img {
+.movieCard img {
     position: absolute;
     z-index: 0;
     width: 100%;
@@ -140,10 +145,9 @@ h2 {
     
 }
 
-
-#movieTitle {
+.movieTitle {
     align-self: flex-start;
-    margin: 20px;
+    margin: 10px 20px 0 20px;
     color: white;
     font-weight: 600;
     font-size: 24px;
@@ -151,7 +155,9 @@ h2 {
 
 }
 
-#detailsGreyButton {
+
+
+.detailsGreyButton {
     align-self: flex-end;
     margin: 10px;
     padding: 4px 20px 4px 20px;
@@ -165,7 +171,7 @@ h2 {
     border: none;
 }
 
-#detailsGreyButton:hover {
+.detailsGreyButton:hover {
     cursor: pointer;
     border:2px solid rgb(36, 36, 36);
     padding: 2px 18px 2px 18px;
@@ -174,7 +180,8 @@ h2 {
 }
 
 
-#seeBtn {
+
+.seeBtn {
     display: flex;
     justify-self: center;
     height: 40px;
@@ -189,7 +196,7 @@ h2 {
     border: none;
 }
 
-#seeBtn:hover {
+.seeBtn:hover {
     cursor: pointer;
     border:2px solid red;
     padding: 8px 38px 8px 38px;
@@ -197,14 +204,6 @@ h2 {
     color: red;
 }
 
-#seeBtn.hide {
-    display: none;
-}
-
-
-button:hover {
-    cursor: pointer;
-}
 
 
 #categoryChoice{
@@ -212,14 +211,14 @@ button:hover {
     align-items: center;
 }
 
-
 #listCategory {
     font-weight: 600;
     font-style: SemiBold;
     font-size: 36px;
-    margin: 10px 0 0 40px;
+    margin: 25px 0 0 40px;
     padding: 10px 20px 10px 20px;
     border: 1px solid black;
+    border-radius: 5px;
    
 }
 
@@ -235,9 +234,7 @@ button:hover {
 
 
 
-
-
-.modalWindowBackground {
+#modalWindowBackground {
     position: fixed;
     top: 0;
     left: 0;
@@ -245,15 +242,16 @@ button:hover {
     height: 100%;
     width: 100%;
     background-color: rgba(212, 212, 212, 0.781);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-
-.modalWindow {
+#modalWindow {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 2; 
+    max-height: 80%;
+    overflow-y: auto;   /* scroll interne */
+    width: 80%;
     display: flex;
     flex-direction: column;
     border: 5px solid black;
@@ -261,18 +259,11 @@ button:hover {
     background-color: white;
 }
 
-.hide {
-    display: none
-}
-
-
-
-
-#infos {
+#modalWindow div {
     margin-bottom: 40px;
 }
 
-#close {
+#closeBtn {
     display: flex;
     justify-self: center;
     align-self: center;
@@ -288,22 +279,7 @@ button:hover {
     border: none;
 }
 
-#poster{
-    position: absolute;
-    top: 30px;
-    right: 30px;
-
-}
-
-#poster img {
-    width: 240px;
-    height: 320px;
-    object-fit: contain;
-    object-position: center;
-}
-
-
-#close:hover {
+#closeBtn:hover {
     cursor: pointer;
     border:2px solid red;
     padding: 8px 38px 8px 38px;
@@ -311,6 +287,23 @@ button:hover {
     color: red;
 }
 
+#modalImage{
+    position: absolute;
+    top: 30px;
+    right: 30px;
+
+}
+
+#modalImage img {
+    width: 240px;
+    height: 320px;
+    object-fit: contain;
+    object-position: center;
+}
+
+#headDetails {
+    max-width: 60% ;
+}
 
 #modalWindow h2 {
     font-weight: 600;
@@ -345,4 +338,11 @@ button:hover {
 
 .little{
     font-size: 20px;
+}
+
+
+
+
+.hide {
+    display: none !important;
 }
