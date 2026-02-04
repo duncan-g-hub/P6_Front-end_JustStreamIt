@@ -7,45 +7,46 @@ async function getData(url) {
 }
 
 
-async function getMovieIds(url, nbMovieIds) {
+async function getMoviesInfos(url, nbMovieIds) {
     const data = await getData(url)
-    const ids = []
+    const moviesInfos = []
 
     const max = Math.min(nbMovieIds, data.results.length)
     for (let i = 0; i < max; i++) {
-        ids.push(data.results[i].id)
+        let movieInfos = {
+            id: data.results[i].id,
+            title: data.results[i].title,
+            imageUrl: data.results[i].image_url
+        }
+        moviesInfos.push(movieInfos)
     }
-    return ids 
+    return moviesInfos 
 
-}
-
-
-async function getInfosFromIds(ids) {
-    const moviesInfos = []
-    for (i = 0; i < ids.length; i++) {
-        const urlId = `http://localhost:8000/api/v1/titles/${ids[i]}`
-        moviesInfos.push(await getMovieInfos(urlId))
-    }
-    return moviesInfos
 }
 
 
 async function getInfosFromFirstId(url) {
-    const ids = await getMovieIds(url, 1)
-    const movieInfos = await getMovieInfos(`http://localhost:8000/api/v1/titles/${ids[0]}`)
+    const id = (await getMoviesInfos(url, 1))[0].id
+    const movieInfos = await getFullMovieInfos(`http://localhost:8000/api/v1/titles/${id}`)
     return movieInfos
 }
 
 
-async function getMovieInfos(url) {
+async function getFullMovieInfos(url) {
     const data = await getData(url)
 
     let rated = ""
-    if (new RegExp("^[a-zA-Z ]+$").test(data.rated)){
-        rated = "Classification inconnue"
+    if (/\d/.test(data.rated)){
+        age = data.rated.replace(/\D+/g, "")
+        rated = "PG-" + age
     } else {
-        rated = "PG-" + data.rated
+        rated = "Classification inconnue"
+        
     }
+
+
+
+
     let grossIncome = ""
     if (data.worldwide_gross_income){
         grossIncome = "$" + Number((data.worldwide_gross_income / 1000000).toFixed(1)) + "m"
@@ -84,8 +85,7 @@ function setAlternativeImage(tagImage, urlImage) {
 
 async function feedBestMoviesInCategory(categoryName, whereToAdd, nbMovies) {
     const urlFilterBestMoviesInCategory = `http://localhost:8000/api/v1/titles?sort_by=-imdb_score&genre=${categoryName}&page_size=${nbMovies}`
-    const ids = await getMovieIds(urlFilterBestMoviesInCategory, nbMovies)
-    const moviesInfos = await getInfosFromIds(ids)
+    const moviesInfos = await getMoviesInfos(urlFilterBestMoviesInCategory, nbMovies)
     const tagBestMoviesInCategory = document.getElementById(`${whereToAdd}`)
     if (whereToAdd === "otherCategory") {
         tagBestMoviesInCategory.insertAdjacentHTML("beforeend", 
@@ -123,8 +123,7 @@ async function feedBestMoviesInCategory(categoryName, whereToAdd, nbMovies) {
 
 async function feedBestMovies(nbMovies) {
     const urlFilterBestMovies = `http://localhost:8000/api/v1/titles/?sort_by=-imdb_score&page_size=${nbMovies+1}`
-    const ids = await getMovieIds(urlFilterBestMovies, nbMovies+1)
-    const moviesInfos = await getInfosFromIds(ids)
+    const moviesInfos = await getMoviesInfos(urlFilterBestMovies, nbMovies+1)
     for (i = 1; i < moviesInfos.length; i++){
         let bestMoviesFrameContent = `
                 <div id="image${i}" class="movieCard">
@@ -166,7 +165,7 @@ async function feedBestMovie() {
 
 
 async function feedModalWindow(urlMovie) {
-    let movieInfos = await getMovieInfos(urlMovie)
+    let movieInfos = await getFullMovieInfos(urlMovie)
 
     const tagTitle = document.querySelector("#modalWindow h2")
     tagTitle.textContent = movieInfos.title
