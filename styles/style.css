@@ -7,6 +7,7 @@
 
 body {
     font-family: Oswald;
+    color: #272330;
     background: linear-gradient(to right, #e9e1fa, #9289ac);
 }
 
@@ -21,7 +22,8 @@ body {
     display: flex;
     align-items: center;
     background: radial-gradient(#796b97, #9a91b6);
-    border: 2px solid black;
+    border: 2px solid #49415a;
+    border-radius: 10px;
 }
 
 #logo {
@@ -50,7 +52,8 @@ h2 {
 
 #bestMovieFrame {
     display: flex;
-    border: 5px solid black;
+    border: 4px solid #49415a;
+    border-radius: 10px;
     padding: 10px;
     background: radial-gradient(#efe7ff, #d7d0ec);
 }
@@ -102,10 +105,10 @@ h2 {
 
 .detailsBestMovieButton:hover {
     cursor: pointer;
-    border:2px solid #796b97;
+    border:2px solid #49415a;
     padding: 14px 38px 14px 38px;
     background-color: white;
-    color: #796b97;
+    color: #49415a;
 }
 
 
@@ -179,7 +182,7 @@ h2 {
 
 .detailsCardButton:hover {
     cursor: pointer;
-    border:2px solid rgb(36, 36, 36);
+    border:2px solid #3a3546;
     padding: 2px 18px 2px 18px;
     background-color: white;
     color: #3a3546;
@@ -204,10 +207,10 @@ h2 {
 
 .seeBtn:hover {
     cursor: pointer;
-    border:2px solid #796b97;
+    border:2px solid #49415a;
     padding: 8px 38px 8px 38px;
     background-color: white;
-    color: #796b97;
+    color: #49415a;
 }
 
 
@@ -223,8 +226,10 @@ h2 {
     font-size: 36px;
     margin: 25px 0 0 40px;
     padding: 10px 20px 10px 20px;
-    border: 1px solid black;
+    border: 1px solid #49415a;
     border-radius: 5px;
+    color: #272330;
+    font-family: Oswald;
    
 }
 
@@ -236,6 +241,8 @@ h2 {
     font-weight: 600;
     font-style: SemiBold;
     font-size: 36px;
+    color: #272330;
+    font-family: Oswald;
 }
 
 
@@ -261,7 +268,8 @@ h2 {
     max-width : 1440px;
     display: flex;
     flex-direction: column;
-    border: 5px solid black;
+    border: 4px solid #49415a;
+    border-radius: 10px;
     padding: 30px;
     /* background: linear-gradient(to right, #ede4ff, #a9a0c4); */
     background: radial-gradient(#efe7ff, #d7d0ec);
@@ -289,10 +297,10 @@ h2 {
 
 #closeBtn:hover {
     cursor: pointer;
-    border:2px solid #796b97;
+    border:2px solid #49415a;
     padding: 8px 38px 8px 38px;
     background-color: white;
-    color: #796b97;
+    color: #49415a;
 }
 
 #modalImage{
@@ -317,7 +325,6 @@ h2 {
     font-weight: 600;
     font-size: 48px;
     font-style: SemiBold;
-    color: black;    
     margin: 0;
 }
 
@@ -325,19 +332,16 @@ h2 {
     font-weight: 600;
     font-size: 24px;
     font-style: SemiBold;
-    color: black;    
 }
 
 .regular {
     font-weight: 400;
     font-style: Regular;
-    color: black;    
 }
 
 .light {
     font-weight: 300;
-    font-style: Light;
-    color: black;    
+    font-style: Light;    
 }
 
 .medium {
