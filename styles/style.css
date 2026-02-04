@@ -7,16 +7,20 @@
 
 body {
     font-family: Oswald;
-    font-style: Light;
-    margin: 80px;
+    background: linear-gradient(to right, #e9e1fa, #9289ac);
 }
 
+#allContent {
+    margin: auto;
+    padding: 80px;
+    max-width : 1440px;
+}
 
 
 #banner {
     display: flex;
     align-items: center;
-    background-color: #8193a7;
+    background: radial-gradient(#796b97, #9a91b6);
     border: 2px solid black;
 }
 
@@ -48,6 +52,7 @@ h2 {
     display: flex;
     border: 5px solid black;
     padding: 10px;
+    background: radial-gradient(#efe7ff, #d7d0ec);
 }
 
 
@@ -81,7 +86,7 @@ h2 {
 
 
 
-.detailsRedButton {
+.detailsBestMovieButton {
     align-self: flex-end;
     height: 60px;
     margin: 10px 20px 20px 10px;
@@ -90,17 +95,17 @@ h2 {
     font-size: 24px;
     font-weight: 500;
     font-style: Medium;
-    background-color: red;
+    background-color: #796b97;
     border-radius: 25px;
     border: none;
 }
 
-.detailsRedButton:hover {
+.detailsBestMovieButton:hover {
     cursor: pointer;
-    border:2px solid red;
+    border:2px solid #796b97;
     padding: 14px 38px 14px 38px;
     background-color: white;
-    color: red;
+    color: #796b97;
 }
 
 
@@ -128,9 +133,10 @@ h2 {
 .movieBanner {
     display: flex;
     flex-direction: column;
-    align-self: center;
+    align-self: flex-start;
     background-color: rgba(0, 0, 0, 0.5);
     position: relative;
+    top: 15%;
     z-index: 1;
     width: 100%;
 }
@@ -157,7 +163,7 @@ h2 {
 
 
 
-.detailsGreyButton {
+.detailsCardButton {
     align-self: flex-end;
     margin: 10px;
     padding: 4px 20px 4px 20px;
@@ -166,17 +172,17 @@ h2 {
     font-size: 14px;
     font-weight: 500;
     font-style: Medium;
-    background-color: rgb(36, 36, 36);
+    background-color: #3a3546;
     border-radius: 15px;
     border: none;
 }
 
-.detailsGreyButton:hover {
+.detailsCardButton:hover {
     cursor: pointer;
     border:2px solid rgb(36, 36, 36);
     padding: 2px 18px 2px 18px;
     background-color: white;
-    color: rgb(36, 36, 36);
+    color: #3a3546;
 }
 
 
@@ -191,17 +197,17 @@ h2 {
     font-size: 20px;
     font-style: Medium;
     font-weight: 500;
-    background-color: red;
+    background-color: #796b97;
     border-radius: 20px;
     border: none;
 }
 
 .seeBtn:hover {
     cursor: pointer;
-    border:2px solid red;
+    border:2px solid #796b97;
     padding: 8px 38px 8px 38px;
     background-color: white;
-    color: red;
+    color: #796b97;
 }
 
 
@@ -241,7 +247,7 @@ h2 {
     z-index: 2; 
     height: 100%;
     width: 100%;
-    background-color: rgba(212, 212, 212, 0.781);
+    background-color: rgba(158, 158, 158, 0.781);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -252,12 +258,14 @@ h2 {
     max-height: 80%;
     overflow-y: auto;   /* scroll interne */
     width: 80%;
+    max-width : 1440px;
     display: flex;
     flex-direction: column;
     border: 5px solid black;
     padding: 30px;
-    background-color: white;
-}
+    /* background: linear-gradient(to right, #ede4ff, #a9a0c4); */
+    background: radial-gradient(#efe7ff, #d7d0ec);
+}   
 
 #modalWindow div {
     margin-bottom: 40px;
@@ -274,17 +282,17 @@ h2 {
     font-size: 20px;
     font-style: Medium;
     font-weight: 500;
-    background-color: red;
+    background-color: #796b97;
     border-radius: 20px;
     border: none;
 }
 
 #closeBtn:hover {
     cursor: pointer;
-    border:2px solid red;
+    border:2px solid #796b97;
     padding: 8px 38px 8px 38px;
     background-color: white;
-    color: red;
+    color: #796b97;
 }
 
 #modalImage{

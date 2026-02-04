@@ -8,79 +8,82 @@
     <script src="../scripts/script.js" defer></script>
 </head>
 <body>
-    <header>
-        <div id="banner">
-            <img id="logo" src="../image/logo.png" alt="logo JustStreamIt">
-            <h1>Vidéos à la demande</h1>
-        </div>
-    </header>
-    
-    <main>
-        <section id="bestMovie">
-            <h2>Meilleur film</h2>
-            <div id="bestMovieFrame">
-                <!-- Détails film : Image Titre synopsis bouton détails -->
-                <div id="movieImage">
-                    <img src="" alt="">
-                </div>
-                <div id="movieContent">
-                    <h2></h2>
-                    <p></p>
-                    <button class="detailsButton detailsRedButton" id="">Détails</button>
-                </div>
+    <div id="allContent">
+        <header>
+            <div id="banner">
+                <img id="logo" src="../image/logo.png" alt="logo JustStreamIt">
+                <h1>Vidéos à la demande</h1>
             </div>
-        </section>
-
-
-        <section id="bestMovies">
-            <h2>Films les mieux notés</h2>
-            <div id="bestMoviesFrame" class="moviesFrame">
-                <!-- Détails film : Image Titre bouton détails -->
-            </div>
-            <button class="hide seeBtn" >Voir plus</button>
-        </section>
-
-
-        <section id="firstCategory"></section>
-
-        <section id="secondCategory"></section>
+        </header>
         
-        <section id="otherCategory">
-            <div id="categoryChoice">
-                <h2>Autres:</h2>
-                <!-- Menu déroulant -->
-                    <select name="listCategory" id="listCategory">
-                    </select>
-            </div>
-        </section>
-    </main>
+        <main>
+            <section id="bestMovie">
+                <h2>Meilleur film</h2>
+                <div id="bestMovieFrame">
+                    <!-- Détails film : Image Titre synopsis bouton détails -->
+                    <div id="movieImage">
+                        <img src="" alt="">
+                    </div>
+                    <div id="movieContent">
+                        <h2></h2>
+                        <p></p>
+                        <button class="detailsButton detailsBestMovieButton" id="" data-id="">Détails</button>
+                    </div>
+                </div>
+            </section>
 
 
-    <div id="modalWindowBackground"  class="hide">
-        <div id="modalWindow" >
-            <!-- Pop up -->
-            <!-- Détails film : Image ; Titre ; Genres ; Date sortie ; Classification (10+ 18+); Score IMDB; Liste Acteurs ; Durée ; pays origine ; recette box office ; résumé film ; bouton fermer -->
-            <div id="headDetails">
-                <h2></h2>
-                <h3></h3>
-            </div>
-            <div id="headDetails">
-                <p class="regular medium">Réalisé par :</p>
-                <p id="directors" class="light medium"></p>
-            </div>
-            <div>
-                <p class="light medium" id="summary"></p>
-            </div>
-            <div id="modalImage"><img src="" alt=""></div>
+            <section id="bestMovies">
+                <h2>Films les mieux notés</h2>
+                <div id="bestMoviesFrame" class="moviesFrame">
+                    <!-- Détails film : Image Titre bouton détails -->
+                </div>
+                <button class="hide seeBtn" >Voir plus</button>
+            </section>
 
-            <div>
-                <p class="regular little">Avec :</p>
-                <p id="actors" class="light little"></p>
-            </div>
 
-            <button id="closeBtn">Fermer</button>
+            <section id="firstCategory"></section>
+
+            <section id="secondCategory"></section>
+            
+            <section id="otherCategory">
+                <div id="categoryChoice">
+                    <h2>Autres:</h2>
+                    <!-- Menu déroulant -->
+                        <select name="listCategory" id="listCategory">
+                        </select>
+                </div>
+            </section>
+        </main>
+
+
+        <div id="modalWindowBackground"  class="hide">
+            <div id="modalWindow" >
+                <!-- Pop up -->
+                <!-- Détails film : Image ; Titre ; Genres ; Date sortie ; Classification (10+ 18+); Score IMDB; Liste Acteurs ; Durée ; pays origine ; recette box office ; résumé film ; bouton fermer -->
+                <div id="headDetails">
+                    <h2></h2>
+                    <h3></h3>
+                </div>
+                <div id="headDetails">
+                    <p class="regular medium">Réalisé par :</p>
+                    <p id="directors" class="light medium"></p>
+                </div>
+                <div>
+                    <p class="light medium" id="summary"></p>
+                </div>
+                <div id="modalImage"><img src="" alt=""></div>
+
+                <div>
+                    <p class="regular little">Avec :</p>
+                    <p id="actors" class="light little"></p>
+                </div>
+
+                <button id="closeBtn">Fermer</button>
+            </div>
         </div>
     </div>
+    
 
 </body>
 </html>

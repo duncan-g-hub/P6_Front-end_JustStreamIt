@@ -41,14 +41,14 @@ async function getMovieInfos(url) {
     const data = await getData(url)
 
     let rated = ""
-    if (data.rated === "Not rated or unkown rating"){
+    if (new RegExp("^[a-zA-Z ]+$").test(data.rated)){
         rated = "Classification inconnue"
     } else {
-        rated = data.rated
+        rated = "PG-" + data.rated
     }
     let grossIncome = ""
     if (data.worldwide_gross_income){
-        grossIncome = data.worldwide_gross_income
+        grossIncome = "$" + Number((data.worldwide_gross_income / 1000000).toFixed(1)) + "m"
     } else {
         grossIncome = "Inconnu"
     }
@@ -63,8 +63,8 @@ async function getMovieInfos(url) {
         genres: data.genres.join(", "), 
         rated: rated,
         duration: data.duration,
-        countries: data.countries.join(", "), 
-        imdbScore: data.imdb_score,
+        countries: data.countries.join(" / "), 
+        imdbScore: data.imdb_score + "/10",
         grossIncome: grossIncome,
         directors: data.directors.join(", "),
         actors: data.actors.join(", ")
@@ -107,7 +107,7 @@ async function feedBestMoviesInCategory(categoryName, whereToAdd, nbMovies) {
                     <img src="" alt="">
                     <div class="movieBanner">
                         <h3 class="movieTitle">${moviesInfos[i].title}</h3>
-                        <button class="detailsButton detailsGreyButton" id="${moviesInfos[i].id}">Détails</button>
+                        <button class="detailsButton detailsCardButton" data-id="${moviesInfos[i].id}">Détails</button>
                     </div>
                 </div>`
         let tagMoviesFrame = document.querySelector(`#${whereToAdd} #${categoryName}MoviesFrame`)
@@ -131,7 +131,7 @@ async function feedBestMovies(nbMovies) {
                     <img src="" alt="">
                     <div class="movieBanner">
                         <h3 class="movieTitle">${moviesInfos[i].title}</h3>
-                        <button class="detailsButton detailsGreyButton" id="${moviesInfos[i].id}">Détails</button>
+                        <button class="detailsButton detailsCardButton" data-id="${moviesInfos[i].id}">Détails</button>
                     </div>
                 </div>`
         let tagMoviesFrame = document.querySelector("#bestMoviesFrame")
@@ -160,7 +160,7 @@ async function feedBestMovie() {
     tagImage.alt = movieInfos.title + " image"
 
     const tagButton = document.querySelector("#movieContent button")
-    tagButton.id = movieInfos.id
+    tagButton.dataset.id = movieInfos.id
 }
 
 
@@ -214,13 +214,11 @@ async function initChosenCategory(nbMovies) {
     const tagCategoryChoice = document.getElementById("listCategory")
     await feedBestMoviesInCategory(tagCategoryChoice.value, "otherCategory", nbMovies)
     initDetailsButtons()
-    tagCategoryChoice.addEventListener("change", async () => {
-        const chosenCategory = tagCategoryChoice.value
-
+    tagCategoryChoice.addEventListener("change", async (event) => {
         const oldMoviesCategory = document.querySelector(".categoryChosen")
         oldMoviesCategory.remove()
 
-        await feedBestMoviesInCategory(chosenCategory, "otherCategory", nbMovies)
+        await feedBestMoviesInCategory(event.target.value, "otherCategory", nbMovies)
 
         initDetailsButtons()
     })
@@ -247,11 +245,10 @@ function displayModalWindow() {
 function initDetailsButtons() {
     const tagsDetailsButtons = document.querySelectorAll(".detailsButton")
     for (let i = 0; i < tagsDetailsButtons.length; i++){
-        tagsDetailsButtons[i].addEventListener("click", async () => {
-            let url = `http://localhost:8000/api/v1/titles/${tagsDetailsButtons[i].id}`
+        tagsDetailsButtons[i].addEventListener("click", async (event) => {
+            let url = `http://localhost:8000/api/v1/titles/${event.target.dataset.id}`
             await feedModalWindow(url)
             displayModalWindow()
-            
         })
     }
 }
@@ -272,10 +269,6 @@ async function feedHtml(){
     initChosenCategory(nbMoviesInCategory)
 
     initDetailsButtons()
-
-    
-    
-
 
 }
 
