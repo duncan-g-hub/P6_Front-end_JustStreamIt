@@ -41,11 +41,7 @@ async function getFullMovieInfos(url) {
         rated = "PG-" + age
     } else {
         rated = "Classification inconnue"
-        
     }
-
-
-
 
     let grossIncome = ""
     if (data.worldwide_gross_income){
@@ -198,15 +194,19 @@ async function getCategories() {
 }
 
 
+
 function displayCategoriesChoice(categories) {
     const tagCategoryChoice = document.getElementById("listCategory")
-    for (i = 0; i < categories.length; i++) {
+    categories.forEach((categorie) => {
         tagCategoryChoice.insertAdjacentHTML("beforeend", 
-            `<option value="${categories[i]}">${categories[i]}</option>`
+            `<option value="${categorie}">${categorie}</option>`
         )
-    }
+    })
 
 }
+
+
+
 
 
 async function initChosenCategory(nbMovies) {
@@ -241,17 +241,17 @@ function displayModalWindow() {
 }
 
 
+
+
 function initDetailsButtons() {
-    const tagsDetailsButtons = document.querySelectorAll(".detailsButton")
-    for (let i = 0; i < tagsDetailsButtons.length; i++){
-        tagsDetailsButtons[i].addEventListener("click", async (event) => {
+    document.querySelectorAll(".detailsButton").forEach((x) => { 
+        x.addEventListener("click", async (event) => {
             let url = `http://localhost:8000/api/v1/titles/${event.target.dataset.id}`
             await feedModalWindow(url)
             displayModalWindow()
-        })
-    }
-}
+    })})
 
+}
 
 
 async function feedHtml(){
