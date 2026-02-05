@@ -70,12 +70,13 @@ async function getFullMovieInfos(url) {
 }
 
 
-function setAlternativeImage(tagImage, urlImage) {
+async function setAlternativeImage(tagImage, urlImage) {
+    tagImage.src = urlImage
+    // détecte un évenement navigateur dans le cas ou il y a une erreur reseau
     tagImage.onerror = () => {
         tagImage.onerror = null
         tagImage.src = "https://picsum.photos/360/480"
         }
-    tagImage.src = urlImage
 }
 
 
@@ -87,19 +88,19 @@ async function feedBestMoviesInCategory(categoryName, whereToAdd, nbMovies) {
         tagBestMoviesInCategory.insertAdjacentHTML("beforeend", 
         `<div id="${categoryName}Category" class="categoryChosen">
             <div id="${categoryName}MoviesFrame" class="moviesFrame"></div>
-            <button class="hide seeBtn" >Voir plus</button>
+            <button class="seeBtn" data-see="more" data-section="${whereToAdd}" >Voir plus</button>
         </div>`)   
     } else {
         tagBestMoviesInCategory.insertAdjacentHTML("beforeend", 
         `<div id="${categoryName}Category">
             <h2>${categoryName}</h2>
             <div id="${categoryName}MoviesFrame" class="moviesFrame"></div>
-            <button class="hide seeBtn" >Voir plus</button>
+            <button class="seeBtn" data-see="more" data-section="${whereToAdd}">Voir plus</button>
         </div>`)   
     }
     for (i = 0; i < moviesInfos.length; i++){
         let categoryMoviesFrameContent = `
-                <div id="image${i}" class="movieCard">
+                <div id="card${i}" class="movieCard">
                     <img src="" alt="">
                     <div class="movieBanner">
                         <h3 class="movieTitle">${moviesInfos[i].title}</h3>
@@ -109,7 +110,7 @@ async function feedBestMoviesInCategory(categoryName, whereToAdd, nbMovies) {
         let tagMoviesFrame = document.querySelector(`#${whereToAdd} #${categoryName}MoviesFrame`)
         tagMoviesFrame.insertAdjacentHTML("beforeend", categoryMoviesFrameContent)
         
-        let tagImage = document.querySelector(`#${whereToAdd} #${categoryName}MoviesFrame #image${i} img`)
+        let tagImage = document.querySelector(`#${whereToAdd} #${categoryName}MoviesFrame #card${i} img`)
         setAlternativeImage(tagImage, moviesInfos[i].imageUrl)
         tagImage.alt = moviesInfos[i].title + " image"
     }
@@ -122,7 +123,7 @@ async function feedBestMovies(nbMovies) {
     const moviesInfos = await getMoviesInfos(urlFilterBestMovies, nbMovies+1)
     for (i = 1; i < moviesInfos.length; i++){
         let bestMoviesFrameContent = `
-                <div id="image${i}" class="movieCard">
+                <div id="card${i}" class="movieCard">
                     <img src="" alt="">
                     <div class="movieBanner">
                         <h3 class="movieTitle">${moviesInfos[i].title}</h3>
@@ -132,7 +133,7 @@ async function feedBestMovies(nbMovies) {
         let tagMoviesFrame = document.querySelector("#bestMoviesFrame")
         tagMoviesFrame.insertAdjacentHTML("beforeend", bestMoviesFrameContent)
 
-        let tagImage = document.querySelector(`#image${i} img`)
+        let tagImage = document.querySelector(`#card${i} img`)
         setAlternativeImage(tagImage, moviesInfos[i].imageUrl)
         tagImage.alt = moviesInfos[i].title + " image"
     }
@@ -212,14 +213,12 @@ function displayCategoriesChoice(categories) {
 async function initChosenCategory(nbMovies) {
     const tagCategoryChoice = document.getElementById("listCategory")
     await feedBestMoviesInCategory(tagCategoryChoice.value, "otherCategory", nbMovies)
-    initDetailsButtons()
     tagCategoryChoice.addEventListener("change", async (event) => {
         const oldMoviesCategory = document.querySelector(".categoryChosen")
         oldMoviesCategory.remove()
-
         await feedBestMoviesInCategory(event.target.value, "otherCategory", nbMovies)
-
         initDetailsButtons()
+        initSeeMoreLessBtns()
     })
 }
 
@@ -244,14 +243,77 @@ function displayModalWindow() {
 
 
 function initDetailsButtons() {
-    document.querySelectorAll(".detailsButton").forEach((x) => { 
-        x.addEventListener("click", async (event) => {
+    document.querySelectorAll(".detailsButton").forEach((btn) => { 
+        btn.addEventListener("click", async (event) => {
             let url = `http://localhost:8000/api/v1/titles/${event.target.dataset.id}`
             await feedModalWindow(url)
             displayModalWindow()
     })})
 
 }
+
+
+
+function initSeeMoreLessBtns() {
+    document.querySelectorAll(".seeBtn").forEach((btn) => { 
+        hideMoviesInCategory(btn.dataset.section)
+
+        btn.onclick = () => {
+            if (btn.dataset.see === "more") {
+                //aficher tous les films de la categorie
+                unHideMoviesInCategory(btn.dataset.section)
+                btn.dataset.see = "less"
+                btn.textContent = "Voir moins"
+            } else {
+                //cacher les films de la categorie selon taille d'ecran
+                hideMoviesInCategory(btn.dataset.section)
+                btn.dataset.see = "more"
+                btn.textContent = "Voir plus"
+            }
+        }
+    })
+    
+}
+
+
+function hideMoviesInCategory(section) {
+    const movies = document.querySelectorAll(`#${section} .movieCard`)
+    const width = document.documentElement.clientWidth
+    let nbVisibleMovies
+    switch (true) {
+        case width < 426:
+            nbVisibleMovies = 2
+            break
+        case width < 769:
+            nbVisibleMovies = 4
+            break
+        default:
+            nbVisibleMovies = 6
+    }
+    for (let i = 0; i < movies.length; i++) {
+        if (i >= nbVisibleMovies) {
+            movies[i].classList.add("hide")
+        } else {
+            movies[i].classList.remove("hide")
+        }
+    }
+}
+
+
+function unHideMoviesInCategory(section) {
+    document.querySelectorAll(`#${section} .movieCard`).forEach((card) => {
+        card.classList.remove("hide")
+    })
+}
+
+
+function initResizingWindow() {
+    window.addEventListener("resize", initSeeMoreLessBtns);
+}
+
+
+
+
 
 
 async function feedHtml(){
@@ -265,9 +327,15 @@ async function feedHtml(){
     const categories = await getCategories()
     displayCategoriesChoice(categories)
 
-    initChosenCategory(nbMoviesInCategory)
+    await initChosenCategory(nbMoviesInCategory)
 
+
+    
     initDetailsButtons()
+    initSeeMoreLessBtns()
+    
+    
+    initResizingWindow()
 
 }
 

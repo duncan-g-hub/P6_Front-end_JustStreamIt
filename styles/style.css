@@ -214,6 +214,10 @@ h2 {
     color: #49415a;
 }
 
+@media screen and (min-width: 769px) {.seeBtn {
+    display: none
+}}
+
 
 
 #categoryChoice{
@@ -226,7 +230,7 @@ h2 {
     font-style: SemiBold;
     font-size: 36px;
     margin: 25px 0 0 40px;
-    padding: 10px 20px 10px 20px;
+    padding: 5px 20px 5px 20px;
     border: 1px solid #49415a;
     border-radius: 5px;
     color: #272330;
