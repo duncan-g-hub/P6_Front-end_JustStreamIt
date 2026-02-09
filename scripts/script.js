@@ -1,5 +1,4 @@
-
-    
+// Récupération des données json via une requete sur l'API
 async function getData(url) {
     const response = await fetch(url)
     const data = await response.json()
@@ -7,10 +6,10 @@ async function getData(url) {
 }
 
 
+// Récupération de l'id, titre et url d'image d'un nombre de film donné selon une requete sur l'API
 async function getMoviesInfos(url, nbMovieIds) {
     const data = await getData(url)
     const moviesInfos = []
-
     const max = Math.min(nbMovieIds, data.results.length)
     for (let i = 0; i < max; i++) {
         let movieInfos = {
@@ -25,6 +24,7 @@ async function getMoviesInfos(url, nbMovieIds) {
 }
 
 
+// Récupération de l'id, et de toutes les informations du premier film selon une requete sur l'API
 async function getInfosFromFirstId(url) {
     const id = (await getMoviesInfos(url, 1))[0].id
     const movieInfos = await getFullMovieInfos(`http://localhost:8000/api/v1/titles/${id}`)
@@ -32,9 +32,9 @@ async function getInfosFromFirstId(url) {
 }
 
 
+// Nettoyage et récupération de toutes les informations d'un film selon une requete sur l'API
 async function getFullMovieInfos(url) {
     const data = await getData(url)
-
     let rated = ""
     if (/\d/.test(data.rated)){
         age = data.rated.replace(/\D+/g, "")
@@ -42,14 +42,12 @@ async function getFullMovieInfos(url) {
     } else {
         rated = "Classification inconnue"
     }
-
     let grossIncome = ""
     if (data.worldwide_gross_income){
         grossIncome = "$" + Number((data.worldwide_gross_income / 1000000).toFixed(1)) + "m"
     } else {
         grossIncome = "Inconnu"
     }
-    
     let movieInfos = {
         id: data.id,
         title: data.original_title,
@@ -70,6 +68,7 @@ async function getFullMovieInfos(url) {
 }
 
 
+// Accéder à une image alternative dans le cas ou l'url de l'image issue de l'API est invalide
 async function setAlternativeImage(tagImage, urlImage) {
     tagImage.src = urlImage
     // détecte un évenement navigateur dans le cas ou il y a une erreur reseau
@@ -80,6 +79,8 @@ async function setAlternativeImage(tagImage, urlImage) {
 }
 
 
+// Alimenter le code XML qui compose une section, selon le nom de la categorie à ajouter, 
+// le nom de la section dans laquelle ajouter la catégorie, le tout via l'API
 async function feedBestMoviesInCategory(categoryName, whereToAdd, nbMovies) {
     const urlFilterBestMoviesInCategory = `http://localhost:8000/api/v1/titles?sort_by=-imdb_score&genre=${categoryName}&page_size=${nbMovies}`
     const moviesInfos = await getMoviesInfos(urlFilterBestMoviesInCategory, nbMovies)
@@ -109,7 +110,6 @@ async function feedBestMoviesInCategory(categoryName, whereToAdd, nbMovies) {
                 </div>`
         let tagMoviesFrame = document.querySelector(`#${whereToAdd} #${categoryName}MoviesFrame`)
         tagMoviesFrame.insertAdjacentHTML("beforeend", categoryMoviesFrameContent)
-        
         let tagImage = document.querySelector(`#${whereToAdd} #${categoryName}MoviesFrame #card${i} img`)
         setAlternativeImage(tagImage, moviesInfos[i].imageUrl)
         tagImage.alt = moviesInfos[i].title + " image"
@@ -117,7 +117,7 @@ async function feedBestMoviesInCategory(categoryName, whereToAdd, nbMovies) {
 }
 
 
-
+// Alimenter le code XML qui compose la section des meilleurs films (toute catégories) via l'API
 async function feedBestMovies(nbMovies) {
     const urlFilterBestMovies = `http://localhost:8000/api/v1/titles/?sort_by=-imdb_score&page_size=${nbMovies+1}`
     const moviesInfos = await getMoviesInfos(urlFilterBestMovies, nbMovies+1)
@@ -132,7 +132,6 @@ async function feedBestMovies(nbMovies) {
                 </div>`
         let tagMoviesFrame = document.querySelector("#bestMoviesFrame")
         tagMoviesFrame.insertAdjacentHTML("beforeend", bestMoviesFrameContent)
-
         let tagImage = document.querySelector(`#card${i} img`)
         setAlternativeImage(tagImage, moviesInfos[i].imageUrl)
         tagImage.alt = moviesInfos[i].title + " image"
@@ -140,51 +139,42 @@ async function feedBestMovies(nbMovies) {
 }
 
 
-
+// Alimenter les données de la section du meilleur film via l'API
 async function feedBestMovie() {
     const urlFilterBestMovies = "http://localhost:8000/api/v1/titles/?sort_by=-imdb_score"
     let movieInfos = await getInfosFromFirstId(urlFilterBestMovies)
-    
     const tagTitle = document.querySelector("#movieContent h2")
     tagTitle.textContent = movieInfos.title
-
     const tagSummary = document.querySelector("#movieContent p")
     tagSummary.textContent = movieInfos.summary
-
     const tagImage = document.querySelector("#movieImage img")
     setAlternativeImage(tagImage, movieInfos.imageUrl)
     tagImage.alt = movieInfos.title + " image"
-
     const tagButton = document.querySelector("#movieContent button")
     tagButton.dataset.id = movieInfos.id
 }
 
 
-
+// Alimenter les données de la fenetre Modale
 async function feedModalWindow(urlMovie) {
     let movieInfos = await getFullMovieInfos(urlMovie)
-
     const tagTitle = document.querySelector("#modalWindow h2")
     tagTitle.textContent = movieInfos.title
-
     const tagInfos = document.querySelector("#modalWindow h3")
     tagInfos.innerHTML = `${movieInfos.year} - ${movieInfos.genres} <br>${movieInfos.rated} - ${movieInfos.duration}minutes (${movieInfos.countries}) <br>Score IMDB : ${movieInfos.imdbScore} <br>Recettes au box-office : ${movieInfos.grossIncome}`
-
     const tagDirectors = document.getElementById("directors")
     tagDirectors.textContent = movieInfos.directors
-
     const tagSummary = document.getElementById("summary")
     tagSummary.textContent = movieInfos.longSummary
-
     const tagActors = document.getElementById("actors")
     tagActors.textContent = movieInfos.actors
-
     const tagImage = document.querySelector("#modalImage img")
     setAlternativeImage(tagImage, movieInfos.imageUrl)
     tagImage.alt = movieInfos.title + " image"
 }
 
 
+// Récupérer la liste de toutes les categories de l'API
 async function getCategories() {
     const data = await getData("http://localhost:8000/api/v1/genres/?page_size=25")
     const categories = []
@@ -195,7 +185,7 @@ async function getCategories() {
 }
 
 
-
+// Afficher toutes les catégories dans le menu déroulant du choix de la categorie
 function displayCategoriesChoice(categories) {
     const tagCategoryChoice = document.getElementById("listCategory")
     categories.forEach((categorie) => {
@@ -203,13 +193,10 @@ function displayCategoriesChoice(categories) {
             `<option value="${categorie}">${categorie}</option>`
         )
     })
-
 }
 
 
-
-
-
+// Ecouter le changement d'un choix dans la liste des catégories
 async function initChosenCategory(nbMovies) {
     const tagCategoryChoice = document.getElementById("listCategory")
     await feedBestMoviesInCategory(tagCategoryChoice.value, "otherCategory", nbMovies)
@@ -223,7 +210,8 @@ async function initChosenCategory(nbMovies) {
 }
 
 
-function closeModalWindow() {
+// Ecouter le click sur le bouton fermer pour fermer la fenetre modale
+function initCloseBtnModalWindow() {
     const tagCloseButton = document.getElementById("closeBtn")
     const tagModalWindowBg = document.getElementById("modalWindowBackground")
     tagCloseButton.addEventListener("click", () => {
@@ -232,16 +220,16 @@ function closeModalWindow() {
 }
 
 
+// Afficher la fenetre modale
 function displayModalWindow() {
     const tagModalWindowBg = document.getElementById("modalWindowBackground")
     tagModalWindowBg.classList.remove("hide")
-    closeModalWindow()
+    initCloseBtnModalWindow()
     
 }
 
 
-
-
+// Ecouter le click sur l'un des boutons détails pour ouvrir la fenetre modale
 function initDetailsButtons() {
     document.querySelectorAll(".detailsButton").forEach((btn) => { 
         btn.addEventListener("click", async (event) => {
@@ -253,11 +241,10 @@ function initDetailsButtons() {
 }
 
 
-
+// Ecouter le click sur l'un des boutons voir plus/moins pour afficher/cacher les films d'une catégorie
 function initSeeMoreLessBtns() {
     document.querySelectorAll(".seeBtn").forEach((btn) => { 
         hideMoviesInCategory(btn.dataset.section)
-
         btn.onclick = () => {
             if (btn.dataset.see === "more") {
                 //aficher tous les films de la categorie
@@ -272,10 +259,10 @@ function initSeeMoreLessBtns() {
             }
         }
     })
-    
 }
 
 
+// Cacher un nombre de films d'une catégorie en fonction de la largeur de la fenetre
 function hideMoviesInCategory(section) {
     const movies = document.querySelectorAll(`#${section} .movieCard`)
     const width = document.documentElement.clientWidth
@@ -300,6 +287,7 @@ function hideMoviesInCategory(section) {
 }
 
 
+// Afficher tous les films d'une catégorie
 function unHideMoviesInCategory(section) {
     document.querySelectorAll(`#${section} .movieCard`).forEach((card) => {
         card.classList.remove("hide")
@@ -307,6 +295,7 @@ function unHideMoviesInCategory(section) {
 }
 
 
+// Ecouter les changement de dimension de la fenetre
 function initResizingWindow() {
     window.addEventListener("resize", initSeeMoreLessBtns);
 }
@@ -317,12 +306,12 @@ function initResizingWindow() {
 
 
 async function feedHtml(){
-    const nbMoviesInCategory = 6
+    
     await feedBestMovie()
     await feedBestMovies(nbMoviesInCategory)
 
-    await feedBestMoviesInCategory("Sci-Fi", "firstCategory", nbMoviesInCategory)
-    await feedBestMoviesInCategory("Adventure", "secondCategory", nbMoviesInCategory)
+    await feedBestMoviesInCategory(firstCategory, "firstCategory", nbMoviesInCategory)
+    await feedBestMoviesInCategory(secondCategory, "secondCategory", nbMoviesInCategory)
 
     const categories = await getCategories()
     displayCategoriesChoice(categories)

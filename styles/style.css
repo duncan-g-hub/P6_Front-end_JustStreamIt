@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Almendra:ital,wght@0,400;0,700;1,400;1,700&family=Arimo:wght@400..700&family=Oswald:wght@200..700&family=Quintessential&display=swap");
 
+/* Général */
 * {
     margin: 0;
     padding: 0;
@@ -19,6 +20,7 @@ body {
 
 
 
+/* Banniere */
 #banner {
     display: flex;
     align-items: center;
@@ -33,8 +35,6 @@ body {
     margin: 25px;
 }
 
-
-
 h1 {
     color: white;
     margin: 10px;
@@ -48,6 +48,8 @@ h1 {
 }}
 
 
+
+/* Titres */
 h2 {
     margin: 30px 0 20px 0;
     font-weight: 600;
@@ -57,7 +59,7 @@ h2 {
 }   
 
 
-
+/* Section meilleur film */
 #bestMovieFrame {
     display: flex;
     flex-direction: column;
@@ -66,7 +68,6 @@ h2 {
     padding: 10px;
     background: radial-gradient(#efe7ff, #d7d0ec);
 }
-
 
 #movieImage {
     width: auto;
@@ -123,10 +124,7 @@ h2 {
 
 
 
-
-
-
-
+/* Section Meilleurs films */
 .moviesFrame {
     display: flex;
     justify-content: center;
@@ -135,7 +133,6 @@ h2 {
     
 }
 
-/* gerer le nombre avec les pourcentage selon taille ecran  */
 .movieCard {
     position: relative;
     display: flex;
@@ -196,13 +193,7 @@ h2 {
 
 
 
-
-
-
-
-
-
-
+/* Boutons voir plus/moins */
 .seeBtn {
     display: flex;
     justify-self: center;
@@ -228,12 +219,7 @@ h2 {
 
 
 
-
-
-
-
-
-
+/* Section Categories */
 #categoryChoice{
     display: flex; 
     flex-direction: column;
@@ -252,6 +238,9 @@ h2 {
     font-family: Oswald;
 }
 
+
+
+/* Gestion choix 3eme categorie */
 #listCategory:hover {
     cursor: pointer;
 }
@@ -266,10 +255,7 @@ h2 {
 
 
 
-
-
-
-
+/* Fenetre Modale */
 #modalWindowBackground {
     position: fixed;
     top: 0;
@@ -302,21 +288,15 @@ h2 {
     margin-bottom: 40px;
 }
 
-
-
 #modalImage{
     width: auto;
     height: auto;
 }
 
-
 #modalImage img {
     width: 100%;
     height: 100%;
 } 
-
-
-
 
 #modalWindow h2 {
     font-weight: 600;
@@ -325,7 +305,6 @@ h2 {
     margin: 0;
     text-align: start;
 }
-
 
 #modalWindow h3 {
     font-weight: 600;
@@ -377,13 +356,14 @@ h2 {
 
 
 
+/* Cacher les éléments via la classe */
 .hide {
     display: none !important;
 }
 
 
 
-
+/* Gestion responsive tablette */
 @media screen and (min-width: 426px) {
     #banner {
         justify-content: flex-start;
@@ -437,9 +417,7 @@ h2 {
 
 
 
-
-
-
+/* Gestion responsive PC */
 @media screen and (min-width: 769px) {
     #allContent {
         padding: 80px;

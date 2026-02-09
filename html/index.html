@@ -5,11 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JustStreamIt</title>
     <link rel="stylesheet" href="../styles/style.css">
+    <script src="../scripts/config.js" defer></script>
     <script src="../scripts/script.js" defer></script>
 </head>
 <body>
     <div id="allContent">
+
         <header>
+            <!-- Bannière  -->
             <div id="banner">
                 <img id="logo" src="../image/logo.png" alt="logo JustStreamIt">
                 <h1>Vidéos à la demande</h1>
@@ -17,10 +20,11 @@
         </header>
         
         <main>
+
+            <!-- Film ayant le meilleur score IMDB -->
             <section id="bestMovie">
                 <h2>Meilleur film</h2>
                 <div id="bestMovieFrame">
-                    <!-- Détails film : Image Titre synopsis bouton détails -->
                     <div id="movieImage">
                         <img src="" alt="">
                     </div>
@@ -32,20 +36,21 @@
                 </div>
             </section>
 
-
+            <!-- Categorie fixe films les mieux notés (tout genre) -->
             <section id="bestMovies">
                 <h2>Films les mieux notés</h2>
                 <div id="bestMoviesFrame" class="moviesFrame">
-                    <!-- Détails film : Image Titre bouton détails -->
                 </div>
                 <button class="seeBtn" data-see="more" data-section="bestMovies">Voir plus</button>
             </section>
 
-
+            <!-- Categorie fixe films les mieux notés (genre : Sci-Fi) -->
             <section id="firstCategory"></section>
 
+            <!-- Categorie fixe films les mieux notés (genre : Aventure) -->
             <section id="secondCategory"></section>
             
+            <!-- Categorie choix du genre films les mieux notés -->
             <section id="otherCategory">
                 <div id="categoryChoice">
                     <h2>Autres:</h2>
@@ -54,13 +59,12 @@
                         </select>
                 </div>
             </section>
+
         </main>
 
-
+        <!-- Fenetre Modale -->
         <div id="modalWindowBackground"  class="hide">
             <div id="modalWindow" >
-                <!-- Pop up -->
-                <!-- Détails film : Image ; Titre ; Genres ; Date sortie ; Classification (10+ 18+); Score IMDB; Liste Acteurs ; Durée ; pays origine ; recette box office ; résumé film ; bouton fermer -->
                 <div id="headDetails">
                     <h2></h2>
                     <h3></h3>
@@ -73,15 +77,14 @@
                     <p class="light medium" id="summary"></p>
                 </div>
                 <div id="modalImage"><img src="" alt=""></div>
-
                 <div>
                     <p class="regular little">Avec :</p>
                     <p id="actors" class="light little"></p>
                 </div>
-
                 <button id="closeBtn">Fermer</button>
             </div>
         </div>
+
     </div>
     
 
