@@ -7,7 +7,7 @@
 
 body {
     font-family: Oswald;
-    color: #272330;
+    color: #332d3f;
     background: linear-gradient(to right, #e9e1fa, #9289ac);
 }
 
@@ -37,7 +37,7 @@ body {
 
 h1 {
     color: white;
-    margin: 25px;
+    margin: 10px;
     font-weight: 300;
     font-size: 40px;
     font-style: Light;
@@ -49,7 +49,7 @@ h1 {
 
 
 h2 {
-    margin: 20px 0 10px 0;
+    margin: 30px 0 20px 0;
     font-weight: 600;
     font-size: 32px;
     font-style: SemiBold;
@@ -68,7 +68,6 @@ h2 {
 }
 
 
-
 #movieImage {
     width: auto;
     height: auto;
@@ -84,20 +83,21 @@ h2 {
     display: flex;
     flex-direction: column;
     margin: 5px;
+    min-width: 0;
 }
 
 #movieContent h2 {
     text-align: start;
     margin: 0;
+    overflow-wrap: break-word;
 }
 
 #movieContent p {
     font-size: 16px;
     font-style: ExtraLight;
     font-weight: 200;
+    overflow-wrap: break-word;
 }
-
-
 
 .detailsBestMovieButton {
     align-self: center;
@@ -119,7 +119,6 @@ h2 {
     padding: 7px 18px 7px 18px;
     background-color: white;
     color: #49415a;
-    
 }
 
 
@@ -136,14 +135,13 @@ h2 {
     
 }
 
-
+/* gerer le nombre avec les pourcentage selon taille ecran  */
 .movieCard {
     position: relative;
     display: flex;
     width: 100%;
     aspect-ratio: 1 / 1;
 }
-
 
 .movieCard img {
     position: absolute;
@@ -152,9 +150,7 @@ h2 {
     height: 100%;
     object-fit: cover;
     object-position: center;
-    
 }
-
 
 .movieBanner {
     display: flex;
@@ -162,10 +158,10 @@ h2 {
     align-self: flex-start;
     background-color: rgba(0, 0, 0, 0.5);
     position: relative;
-    top: 15%;
+    margin-top: 15%;
     z-index: 1;
     width: 100%;
-    padding: 10px;
+    padding: 10px 15px 15px 15px;
 }
 
 .movieTitle {
@@ -175,13 +171,10 @@ h2 {
     font-weight: 600;
     font-size: 24px;
     font-style: SemiBold;
-
 }
-
 
 .detailsCardButton {
     align-self: flex-end;
-    /* margin: 10px; */
     padding: 5px 25px 5px 25px;
     height: 32px;  
     color: white;
@@ -208,11 +201,13 @@ h2 {
 
 
 
+
+
 .seeBtn {
     display: flex;
     justify-self: center;
     height: 32px;
-    margin: 20px;
+    margin: 20px 0 20px 0;
     padding: 6px 60px 6px 60px;
     color: white;
     font-size: 20px;
@@ -231,9 +226,11 @@ h2 {
     color: #49415a;
 }
 
-@media screen and (min-width: 769px) {.seeBtn {
-    display: none
-}}
+
+
+
+
+
 
 
 
@@ -253,7 +250,6 @@ h2 {
     border-radius: 5px;
     color: #272330;
     font-family: Oswald;
-   
 }
 
 #listCategory:hover {
@@ -267,6 +263,9 @@ h2 {
     color: #272330;
     font-family: Oswald;
 }
+
+
+
 
 
 
@@ -356,9 +355,9 @@ h2 {
     display: flex;
     justify-self: center;
     align-self: center;
-    height: 32px;
-    margin: 10px 20px 20px 10px;
-    padding: 6px 60px 6px 60px;
+    height: 36px;
+    margin: 10px 20px 20px 20px;
+    padding: 8px 60px 8px 60px;
     color: white;
     font-size: 20px;
     font-style: Medium;
@@ -371,7 +370,7 @@ h2 {
 #closeBtn:hover {
     cursor: pointer;
     border:2px solid #49415a;
-    padding: 8px 58px 8px 58px;
+    padding: 6px 58px 6px 58px;
     background-color: white;
     color: #49415a;
 }
@@ -380,4 +379,113 @@ h2 {
 
 .hide {
     display: none !important;
+}
+
+
+
+
+@media screen and (min-width: 426px) {
+    #banner {
+        justify-content: flex-start;
+    }
+
+    h2 {
+        font-size: 40px;
+        text-align: start;
+    }
+    
+    #bestMovieFrame {
+        flex-direction: row;
+        gap: 20px;
+    }
+    #movieImage {
+        min-width: 180px;
+    }   
+    #movieContent p {
+        font-size: 24px;
+    }
+    .detailsBestMovieButton {
+        align-self: flex-end;
+        height: 45px;
+        margin: 5px ;
+        padding: 12px 25px 12px 25px;
+        font-size: 20px;
+        border-radius: 23px;
+        margin-top: auto;
+    }
+    .detailsBestMovieButton:hover {
+        padding: 10px 23px 10px 23px;
+    }
+
+    .movieCard {
+        width: 45%;
+    }
+    
+    #categoryChoice{
+    flex-direction: row;
+    gap: 30px;
+    }
+    #listCategory {
+        font-size: 32px;
+        margin: 15px 0 0 0;
+        padding: 5px 20px 5px 10px;
+    }
+    #listCategory option {
+        font-size: 32px;
+    }
+}
+
+
+
+
+
+
+@media screen and (min-width: 769px) {
+    #allContent {
+        padding: 80px;
+    }
+    h2 {
+        font-size: 48px;
+    }   
+    
+    #movieContent p {
+        font-size: 28px;
+    }
+    .detailsBestMovieButton {
+        height: 64px;
+        padding: 20px 40px 20px 40px;
+        font-size: 24px;
+        border-radius: 25px;
+    }
+    .detailsBestMovieButton:hover {
+        padding: 18px 38px 18px 38px;
+    }
+
+    .movieCard {
+        width: 30%;
+    }
+
+    .seeBtn {
+        display: none
+    }
+
+    #listCategory {
+        font-size: 36px;
+    }
+    #listCategory option {
+        font-size: 36px;
+    }
+
+    #modalImage{
+        position: absolute;
+        top: 30px;
+        right: 30px;
+    }
+    #modalImage img {
+        width: auto;
+        height: 360px;
+    } 
+    #headDetails {
+        width: 50%;
+    }
 }
