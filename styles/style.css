@@ -463,7 +463,7 @@ h2 {
         width: auto;
         height: 360px;
     } 
-    #headDetails {
+    .headDetails {
         width: 50%;
     }
 }

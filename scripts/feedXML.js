@@ -1,73 +1,3 @@
-// Récupération des données json via une requete sur l'API
-async function getData(url) {
-    const response = await fetch(url)
-    const data = await response.json()
-    return data
-}
-
-
-// Récupération de l'id, titre et url d'image d'un nombre de film donné selon une requete sur l'API
-async function getMoviesInfos(url, nbMovieIds) {
-    const data = await getData(url)
-    const moviesInfos = []
-    const max = Math.min(nbMovieIds, data.results.length)
-    for (let i = 0; i < max; i++) {
-        let movieInfos = {
-            id: data.results[i].id,
-            title: data.results[i].title,
-            imageUrl: data.results[i].image_url
-        }
-        moviesInfos.push(movieInfos)
-    }
-    return moviesInfos 
-
-}
-
-
-// Récupération de l'id, et de toutes les informations du premier film selon une requete sur l'API
-async function getInfosFromFirstId(url) {
-    const id = (await getMoviesInfos(url, 1))[0].id
-    const movieInfos = await getFullMovieInfos(`http://localhost:8000/api/v1/titles/${id}`)
-    return movieInfos
-}
-
-
-// Nettoyage et récupération de toutes les informations d'un film selon une requete sur l'API
-async function getFullMovieInfos(url) {
-    const data = await getData(url)
-    let rated = ""
-    if (/\d/.test(data.rated)){
-        age = data.rated.replace(/\D+/g, "")
-        rated = "PG-" + age
-    } else {
-        rated = "Classification inconnue"
-    }
-    let grossIncome = ""
-    if (data.worldwide_gross_income){
-        grossIncome = "$" + Number((data.worldwide_gross_income / 1000000).toFixed(1)) + "m"
-    } else {
-        grossIncome = "Inconnu"
-    }
-    let movieInfos = {
-        id: data.id,
-        title: data.original_title,
-        summary: data.description,
-        longSummary: data.long_description,
-        imageUrl: data.image_url,
-        year: data.year,
-        genres: data.genres.join(", "), 
-        rated: rated,
-        duration: data.duration,
-        countries: data.countries.join(" / "), 
-        imdbScore: data.imdb_score + "/10",
-        grossIncome: grossIncome,
-        directors: data.directors.join(", "),
-        actors: data.actors.join(", ")
-    }
-    return movieInfos
-}
-
-
 // Accéder à une image alternative dans le cas ou l'url de l'image issue de l'API est invalide
 async function setAlternativeImage(tagImage, urlImage) {
     tagImage.src = urlImage
@@ -174,17 +104,6 @@ async function feedModalWindow(urlMovie) {
 }
 
 
-// Récupérer la liste de toutes les categories de l'API
-async function getCategories() {
-    const data = await getData("http://localhost:8000/api/v1/genres/?page_size=25")
-    const categories = []
-    for (let i = 0; i < data.results.length; i++) {
-        categories.push(data.results[i].name) 
-    }
-    return categories
-}
-
-
 // Afficher toutes les catégories dans le menu déroulant du choix de la categorie
 function displayCategoriesChoice(categories) {
     const tagCategoryChoice = document.getElementById("listCategory")
@@ -192,72 +111,6 @@ function displayCategoriesChoice(categories) {
         tagCategoryChoice.insertAdjacentHTML("beforeend", 
             `<option value="${categorie}">${categorie}</option>`
         )
-    })
-}
-
-
-// Ecouter le changement d'un choix dans la liste des catégories
-async function initChosenCategory(nbMovies) {
-    const tagCategoryChoice = document.getElementById("listCategory")
-    await feedBestMoviesInCategory(tagCategoryChoice.value, "otherCategory", nbMovies)
-    tagCategoryChoice.addEventListener("change", async (event) => {
-        const oldMoviesCategory = document.querySelector(".categoryChosen")
-        oldMoviesCategory.remove()
-        await feedBestMoviesInCategory(event.target.value, "otherCategory", nbMovies)
-        initDetailsButtons()
-        initSeeMoreLessBtns()
-    })
-}
-
-
-// Ecouter le click sur le bouton fermer pour fermer la fenetre modale
-function initCloseBtnModalWindow() {
-    const tagCloseButton = document.getElementById("closeBtn")
-    const tagModalWindowBg = document.getElementById("modalWindowBackground")
-    tagCloseButton.addEventListener("click", () => {
-        tagModalWindowBg.classList.add("hide")
-    })
-}
-
-
-// Afficher la fenetre modale
-function displayModalWindow() {
-    const tagModalWindowBg = document.getElementById("modalWindowBackground")
-    tagModalWindowBg.classList.remove("hide")
-    initCloseBtnModalWindow()
-    
-}
-
-
-// Ecouter le click sur l'un des boutons détails pour ouvrir la fenetre modale
-function initDetailsButtons() {
-    document.querySelectorAll(".detailsButton").forEach((btn) => { 
-        btn.addEventListener("click", async (event) => {
-            let url = `http://localhost:8000/api/v1/titles/${event.target.dataset.id}`
-            await feedModalWindow(url)
-            displayModalWindow()
-    })})
-
-}
-
-
-// Ecouter le click sur l'un des boutons voir plus/moins pour afficher/cacher les films d'une catégorie
-function initSeeMoreLessBtns() {
-    document.querySelectorAll(".seeBtn").forEach((btn) => { 
-        hideMoviesInCategory(btn.dataset.section)
-        btn.onclick = () => {
-            if (btn.dataset.see === "more") {
-                //aficher tous les films de la categorie
-                unHideMoviesInCategory(btn.dataset.section)
-                btn.dataset.see = "less"
-                btn.textContent = "Voir moins"
-            } else {
-                //cacher les films de la categorie selon taille d'ecran
-                hideMoviesInCategory(btn.dataset.section)
-                btn.dataset.see = "more"
-                btn.textContent = "Voir plus"
-            }
-        }
     })
 }
 
@@ -295,42 +148,9 @@ function unHideMoviesInCategory(section) {
 }
 
 
-// Ecouter les changement de dimension de la fenetre
-function initResizingWindow() {
-    window.addEventListener("resize", initSeeMoreLessBtns);
+// Afficher la fenetre modale
+function displayModalWindow() {
+    const tagModalWindowBg = document.getElementById("modalWindowBackground")
+    tagModalWindowBg.classList.remove("hide")
+    initCloseBtnModalWindow()
 }
-
-
-
-
-
-
-async function feedHtml(){
-    
-    await feedBestMovie()
-    await feedBestMovies(nbMoviesInCategory)
-
-    await feedBestMoviesInCategory(firstCategory, "firstCategory", nbMoviesInCategory)
-    await feedBestMoviesInCategory(secondCategory, "secondCategory", nbMoviesInCategory)
-
-    const categories = await getCategories()
-    displayCategoriesChoice(categories)
-
-    await initChosenCategory(nbMoviesInCategory)
-
-
-    
-    initDetailsButtons()
-    initSeeMoreLessBtns()
-    
-    
-    initResizingWindow()
-
-}
-
-
-
-feedHtml()
-    
-
-
