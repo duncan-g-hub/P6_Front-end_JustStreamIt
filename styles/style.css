@@ -13,7 +13,7 @@ body {
 
 #allContent {
     margin: auto;
-    padding: 80px;
+    padding: 40px;
     max-width : 1440px;
 }
 
@@ -22,6 +22,7 @@ body {
 #banner {
     display: flex;
     align-items: center;
+    justify-content: center;
     background: radial-gradient(#796b97, #9a91b6);
     border: 2px solid #49415a;
     border-radius: 10px;
@@ -42,17 +43,24 @@ h1 {
     font-style: Light;
 }
 
+@media screen and (max-width: 425px) {h1 {
+    display: none
+}}
+
+
 h2 {
-    margin: 30px 0 15px 0;
+    margin: 20px 0 10px 0;
     font-weight: 600;
-    font-size: 44px;
+    font-size: 32px;
     font-style: SemiBold;
+    text-align: center;
 }   
 
 
 
 #bestMovieFrame {
     display: flex;
+    flex-direction: column;
     border: 4px solid #49415a;
     border-radius: 10px;
     padding: 10px;
@@ -62,8 +70,6 @@ h2 {
 
 
 #movieImage {
-    /* min-width: 240px;
-    min-height: 320px; */
     width: auto;
     height: auto;
 }
@@ -77,16 +83,16 @@ h2 {
 #movieContent {
     display: flex;
     flex-direction: column;
-    margin: 5px 5px 5px 40px;
+    margin: 5px;
 }
 
 #movieContent h2 {
-    margin: 0 0 20px 0;
+    text-align: start;
+    margin: 0;
 }
 
 #movieContent p {
-    margin: 5px;
-    font-size: 28px;
+    font-size: 16px;
     font-style: ExtraLight;
     font-weight: 200;
 }
@@ -94,23 +100,23 @@ h2 {
 
 
 .detailsBestMovieButton {
-    align-self: flex-end;
-    height: 60px;
-    margin: 10px 20px 20px 10px;
-    padding: 16px 40px 16px 40px;
+    align-self: center;
+    height: 40px;
+    margin: 20px 20px 0 20px ;
+    padding: 9px 20px 9px 20px;
     color: white;
-    font-size: 24px;
+    font-size: 14px;
     font-weight: 500;
     font-style: Medium;
     background-color: #796b97;
-    border-radius: 25px;
+    border-radius: 20px;
     border: none;
 }
 
 .detailsBestMovieButton:hover {
     cursor: pointer;
     border:2px solid #49415a;
-    padding: 14px 38px 14px 38px;
+    padding: 7px 18px 7px 18px;
     background-color: white;
     color: #49415a;
     
@@ -119,36 +125,25 @@ h2 {
 
 
 
+
+
+
 .moviesFrame {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
+    gap: 30px;
+    
 }
+
 
 .movieCard {
     position: relative;
     display: flex;
-    width: 245px;
-    height: 245px;
-    margin: 20px;
-
-}
-
-@media screen and (min-width: 1299px) {.movieCard {
-    width: 330px;
-    height: 330px;
-}}
-
-.movieBanner {
-    display: flex;
-    flex-direction: column;
-    align-self: flex-start;
-    background-color: rgba(0, 0, 0, 0.5);
-    position: relative;
-    top: 15%;
-    z-index: 1;
     width: 100%;
+    aspect-ratio: 1 / 1;
 }
+
 
 .movieCard img {
     position: absolute;
@@ -160,9 +155,22 @@ h2 {
     
 }
 
+
+.movieBanner {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: relative;
+    top: 15%;
+    z-index: 1;
+    width: 100%;
+    padding: 10px;
+}
+
 .movieTitle {
     align-self: flex-start;
-    margin: 10px 20px 0 20px;
+    margin: 0 0 10px 0; 
     color: white;
     font-weight: 600;
     font-size: 24px;
@@ -171,50 +179,54 @@ h2 {
 }
 
 
-
 .detailsCardButton {
     align-self: flex-end;
-    margin: 10px;
-    padding: 4px 20px 4px 20px;
-    height: 30px;  
+    /* margin: 10px; */
+    padding: 5px 25px 5px 25px;
+    height: 32px;  
     color: white;
     font-size: 14px;
     font-weight: 500;
     font-style: Medium;
     background-color: #3a3546;
-    border-radius: 15px;
+    border-radius: 16px;
     border: none;
 }
 
 .detailsCardButton:hover {
     cursor: pointer;
     border:2px solid #3a3546;
-    padding: 2px 18px 2px 18px;
+    padding: 3px 23px 3px 23px;
     background-color: white;
     color: #3a3546;
 }
 
 
 
+
+
+
+
+
 .seeBtn {
     display: flex;
     justify-self: center;
-    height: 40px;
-    margin: 10px 20px 20px 10px;
-    padding: 10px 40px 10px 40px;
+    height: 32px;
+    margin: 20px;
+    padding: 6px 60px 6px 60px;
     color: white;
     font-size: 20px;
     font-style: Medium;
     font-weight: 500;
     background-color: #796b97;
-    border-radius: 20px;
+    border-radius: 16px;
     border: none;
 }
 
 .seeBtn:hover {
     cursor: pointer;
     border:2px solid #49415a;
-    padding: 8px 38px 8px 38px;
+    padding: 4px 58px 4px 58px;
     background-color: white;
     color: #49415a;
 }
@@ -227,15 +239,16 @@ h2 {
 
 #categoryChoice{
     display: flex; 
+    flex-direction: column;
     align-items: center;
 }
 
 #listCategory {
     font-weight: 600;
     font-style: SemiBold;
-    font-size: 36px;
-    margin: 25px 0 0 40px;
-    padding: 5px 20px 5px 20px;
+    font-size: 28px;
+    margin: 10px 0 20px 0;
+    padding: 5px 20px 5px 10px;
     border: 1px solid #49415a;
     border-radius: 5px;
     color: #272330;
@@ -250,90 +263,12 @@ h2 {
 #listCategory option {
     font-weight: 600;
     font-style: SemiBold;
-    font-size: 36px;
+    font-size: 28px;
     color: #272330;
     font-family: Oswald;
 }
 
 
-
-
-@media screen and (max-width: 768px) {
-    h1 {
-        font-size: 35px;
-        margin: 7px;
-    }
-
-    #allContent {
-        padding: 40px;
-    }
-
-
-    #movieContent p {
-        margin: 5px;
-        font-size: 22px;
-        font-style: ExtraLight;
-        font-weight: 200;
-    }
-        #movieContent h2 {
-        margin: 5px;
-        font-size: 38px
-    }
-
-    #movieContent {
-        margin: 5px;
-    }
-    .detailsBestMovieButton { 
-        height: 45px;
-        margin: 10px;
-        padding: 12px 30px 12px 30px;
-        font-size: 21px;
-    }
-
-    .detailsBestMovieButton:hover {
-        padding: 10px 28px 10px 28px;
-    }
-    #listCategory {
-    font-weight: 500;
-    font-size: 30px;
-    margin: 25px 0 0 20px;
-    padding: 5px;
-   
-}
-
-}
-
-
-@media screen and (max-width: 425px) {
-    #allContent {
-        padding: 40px;
-    }
-    #banner h1 {
-        display: none;
-    }
-    #banner {
-        justify-content: center;
-    }
-    #bestMovieFrame{
-        flex-direction: column;
-    }
-    #movieContent {
-        margin: 5px;
-    }
-    .detailsBestMovieButton {
-        align-self: center;
-        margin: 10px 0;
-    }
-    h2 {
-        text-align: center ;
-    }
-    #categoryChoice{
-        flex-direction: column;
-    }
-    #listCategory {
-        margin: 0;
-    }
-}
 
 
 #modalWindowBackground {
@@ -360,7 +295,7 @@ h2 {
     border: 4px solid #49415a;
     border-radius: 10px;
     padding: 30px;
-    /* background: linear-gradient(to right, #ede4ff, #a9a0c4); */
+    
     background: radial-gradient(#efe7ff, #d7d0ec);
 }   
 
@@ -368,73 +303,30 @@ h2 {
     margin-bottom: 40px;
 }
 
-#closeBtn {
-    display: flex;
-    justify-self: center;
-    align-self: center;
-    height: 40px;
-    margin: 10px 20px 20px 10px;
-    padding: 10px 40px 10px 40px;
-    color: white;
-    font-size: 20px;
-    font-style: Medium;
-    font-weight: 500;
-    background-color: #796b97;
-    border-radius: 20px;
-    border: none;
-}
 
-#closeBtn:hover {
-    cursor: pointer;
-    border:2px solid #49415a;
-    padding: 8px 38px 8px 38px;
-    background-color: white;
-    color: #49415a;
-}
 
 #modalImage{
-    position: absolute;
-    top: 30px;
-    right: 30px;
-
+    width: auto;
+    height: auto;
 }
-
 
 
 #modalImage img {
-    max-width: 240px;
-}
+    width: 100%;
+    height: 100%;
+} 
 
 
-#headDetails {
-    max-width: 60% ;
-}
+
 
 #modalWindow h2 {
     font-weight: 600;
     font-size: 48px;
     font-style: SemiBold;
     margin: 0;
+    text-align: start;
 }
 
-
-@media screen and (max-width: 768px) { 
-#modalImage {
-    align-self: center;
-    position: relative;
-    top: 0;
-    right: 0;
-}
-
-#modalImage img {
-    max-width: fit-content;
-    max-height: fit-content;
-}
-
-#headDetails {
-    max-width: 100% ;
-}
-}
 
 #modalWindow h3 {
     font-weight: 600;
@@ -460,6 +352,29 @@ h2 {
     font-size: 20px;
 }
 
+#closeBtn {
+    display: flex;
+    justify-self: center;
+    align-self: center;
+    height: 32px;
+    margin: 10px 20px 20px 10px;
+    padding: 6px 60px 6px 60px;
+    color: white;
+    font-size: 20px;
+    font-style: Medium;
+    font-weight: 500;
+    background-color: #796b97;
+    border-radius: 20px;
+    border: none;
+}
+
+#closeBtn:hover {
+    cursor: pointer;
+    border:2px solid #49415a;
+    padding: 8px 58px 8px 58px;
+    background-color: white;
+    color: #49415a;
+}
 
 
 
