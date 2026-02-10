@@ -42,7 +42,7 @@ h1 {
     font-size: 40px;
 }
 
-@media screen and (max-width: 425px) {h1 {
+@media (max-width: 425px) {h1 {
     display: none
 }}
 
@@ -350,7 +350,7 @@ h2 {
 
 
 /* Gestion responsive tablette */
-@media screen and (min-width: 426px) {
+@media (min-width: 426px) {
     #banner {
         justify-content: flex-start;
     }
@@ -404,7 +404,7 @@ h2 {
 
 
 /* Gestion responsive PC */
-@media screen and (min-width: 769px) {
+@media (min-width: 769px) {
     #allContent {
         padding: 80px;
     }
@@ -451,5 +451,24 @@ h2 {
     } 
     .headDetails {
         width: 50%;
+    }
+}
+
+
+
+/* Cacher le bon nombre de film en fonction de l'ecran */
+/* Mobile */
+@media (max-width: 425px) {
+    /* Cache 4 films */ 
+    .movieCard:nth-child(n + 3):not(.show) {
+        display: none;
+    } 
+}
+
+/* Tablette */
+@media (min-width: 426px) and (max-width: 768px) {
+    /* Cache 2 films */
+    .movieCard:nth-child(n + 5):not(.show) {
+        display: none;
     }
 }

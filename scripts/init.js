@@ -36,15 +36,14 @@ function initDetailsButtons() {
 // Ecouter le click sur l'un des boutons voir plus/moins pour afficher/cacher les films d'une catégorie
 function initSeeMoreLessBtns() {
     document.querySelectorAll(".seeBtn").forEach((btn) => { 
-        hideMoviesInCategory(btn.dataset.section)
         btn.onclick = () => {
             if (btn.dataset.see === "more") {
                 //aficher tous les films de la categorie
-                unHideMoviesInCategory(btn.dataset.section)
+                showMoviesInCategory(btn.dataset.section)
                 btn.dataset.see = "less"
                 btn.textContent = "Voir moins"
             } else {
-                //cacher les films de la categorie selon taille d'ecran
+                //cacher les films de la categorie selon Querries CSS
                 hideMoviesInCategory(btn.dataset.section)
                 btn.dataset.see = "more"
                 btn.textContent = "Voir plus"
@@ -54,7 +53,3 @@ function initSeeMoreLessBtns() {
 }
 
 
-// Ecouter les changement de dimension de la fenetre
-function initResizingWindow() {
-    window.addEventListener("resize", initSeeMoreLessBtns);
-}

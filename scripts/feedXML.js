@@ -115,35 +115,18 @@ function displayCategoriesChoice(categories) {
 }
 
 
-// Cacher un nombre de films d'une catégorie en fonction de la largeur de la fenetre
+// Cacher les films d'une categorie en fonction des querries CSS
 function hideMoviesInCategory(section) {
-    const movies = document.querySelectorAll(`#${section} .movieCard`)
-    const width = document.documentElement.clientWidth
-    let nbVisibleMovies
-    switch (true) {
-        case width < 426:
-            nbVisibleMovies = 2
-            break
-        case width < 769:
-            nbVisibleMovies = 4
-            break
-        default:
-            nbVisibleMovies = 6
-    }
-    for (let i = 0; i < movies.length; i++) {
-        if (i >= nbVisibleMovies) {
-            movies[i].classList.add("hide")
-        } else {
-            movies[i].classList.remove("hide")
-        }
-    }
+    document.querySelectorAll(`#${section} .movieCard`).forEach((card) => {
+        card.classList.remove("show")
+    })
 }
 
 
 // Afficher tous les films d'une catégorie
-function unHideMoviesInCategory(section) {
+function showMoviesInCategory(section) {
     document.querySelectorAll(`#${section} .movieCard`).forEach((card) => {
-        card.classList.remove("hide")
+        card.classList.add("show")
     })
 }
 
