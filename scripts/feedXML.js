@@ -51,6 +51,7 @@ async function feedBestMoviesInCategory(categoryName, whereToAdd, nbMovies) {
 async function feedBestMovies(nbMovies) {
     const urlFilterBestMovies = `http://localhost:8000/api/v1/titles/?sort_by=-imdb_score&page_size=${nbMovies+1}`
     const moviesInfos = await getMoviesInfos(urlFilterBestMovies, nbMovies+1)
+    await feedBestMovie(moviesInfos[0].id)
     for (i = 1; i < moviesInfos.length; i++){
         let bestMoviesFrameContent = `
                 <div id="card${i}" class="movieCard">
@@ -69,10 +70,9 @@ async function feedBestMovies(nbMovies) {
 }
 
 
-// Alimenter les données de la section du meilleur film via l'API
-async function feedBestMovie() {
-    const urlFilterBestMovies = "http://localhost:8000/api/v1/titles/?sort_by=-imdb_score"
-    let movieInfos = await getInfosFromFirstId(urlFilterBestMovies)
+// Alimenter les données de la section du meilleur film à partir de son id via l'API
+async function feedBestMovie(id) {
+    const movieInfos = await getFullMovieInfos(`http://localhost:8000/api/v1/titles/${id}`)
     const tagTitle = document.querySelector("#movieContent h2")
     tagTitle.textContent = movieInfos.title
     const tagSummary = document.querySelector("#movieContent p")

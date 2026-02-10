@@ -24,12 +24,12 @@ async function getMoviesInfos(url, nbMovieIds) {
 }
 
 
-// Récupération de l'id, et de toutes les informations du premier film selon une requete sur l'API
-async function getInfosFromFirstId(url) {
-    const id = (await getMoviesInfos(url, 1))[0].id
-    const movieInfos = await getFullMovieInfos(`http://localhost:8000/api/v1/titles/${id}`)
-    return movieInfos
-}
+// // Récupération de l'id, et de toutes les informations du premier film selon une requete sur l'API
+// async function getInfosFromFirstId(url) {
+//     const id = (await getMoviesInfos(url, 1))[0].id
+//     const movieInfos = await getFullMovieInfos(`http://localhost:8000/api/v1/titles/${id}`)
+//     return movieInfos
+// }
 
 
 // Nettoyage et récupération de toutes les informations d'un film selon une requete sur l'API

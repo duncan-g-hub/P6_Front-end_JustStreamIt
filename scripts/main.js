@@ -1,15 +1,17 @@
 // Point d'entrée de l'app
 async function main() {    
+    
+
+    displayCategoriesChoice(await getCategories())
+    await feedBestMovies(nbMoviesInCategory)
+    await feedBestMoviesInCategory(firstCategory, "firstCategory", nbMoviesInCategory)
+    await feedBestMoviesInCategory(secondCategory, "secondCategory", nbMoviesInCategory)
+
+
     await initChosenCategory(nbMoviesInCategory)
     initDetailsButtons()
     initSeeMoreLessBtns()
     initResizingWindow()
-
-    displayCategoriesChoice(await getCategories())
-    await feedBestMovie()
-    await feedBestMovies(nbMoviesInCategory)
-    await feedBestMoviesInCategory(firstCategory, "firstCategory", nbMoviesInCategory)
-    await feedBestMoviesInCategory(secondCategory, "secondCategory", nbMoviesInCategory)
 }
 
 main()
