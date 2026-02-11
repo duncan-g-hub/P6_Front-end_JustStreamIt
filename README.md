@@ -13,15 +13,18 @@ Il s'agit d'une application permettant la visualisation en temps réel du classe
   - Données des films récupérées via l'id : 
     - titre ; résumé ; URL de l'image ; année de parution ; genres ; classification ; durée du film ; pays d'origine ; score IMDB ; recettes au box-office ; réalisateurs ; acteurs
 
+
 - Affichage des films : 
   - Meileur film (toutes catégories confondues)
   - Meilleurs films (toutes catégories confondues)
   - Meilleurs films d'une catégorie (Sci-Fi ; Adventure)
   - Meilleurs films d'une catégorie choisie parmis la liste des catégories (menu déroulant)
 
+
 - Affichage détails films : 
   - Gestion de boutons "détails" pour accéder aux détails d'un film
   - Fenêtre modale contenant tous les détails du films
+
 
 - Responsive : 
   - Les dimensions des éléments et le nombre de films affichés varient en fonction de la taille d'écran utilisé
@@ -32,7 +35,7 @@ Il s'agit d'une application permettant la visualisation en temps réel du classe
 
 ## Architecture
 
-Le projet suit une architecture modulaire avec séparation des responsabilités :
+Le projet suit une architecture modulaire avec séparation des responsabilités : 
 - HTML : Structure sémantique de la page
 - CSS : Mise en forme et responsive design (approche mobile-first)
 - JavaScript : Gestion des appels API, de la logique métier et des événements utilisateur
