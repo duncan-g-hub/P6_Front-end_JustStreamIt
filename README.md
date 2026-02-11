@@ -8,22 +8,22 @@ Il s'agit d'une application permettant la visualisation en temps réel du classe
 
 ## Fonctionnalités
 
-- Récupération de données de film à partir de l'API OC-Movies-API : https://github.com/OpenClassrooms-Student-Center/OCMovies-API-EN-FR
+- Récupération de données de film à partir de l'API OC-Movies-API : https://github.com/OpenClassrooms-Student-Center/OCMovies-API-EN-FR 
   - Films filtrés par score IMDB et/ou genre
-  - Données des films récupérées via l'id :
+  - Données des films récupérées via l'id : 
     - titre ; résumé ; URL de l'image ; année de parution ; genres ; classification ; durée du film ; pays d'origine ; score IMDB ; recettes au box-office ; réalisateurs ; acteurs
 
-- Affichage des films :
+- Affichage des films : 
   - Meileur film (toutes catégories confondues)
   - Meilleurs films (toutes catégories confondues)
   - Meilleurs films d'une catégorie (Sci-Fi ; Adventure)
   - Meilleurs films d'une catégorie choisie parmis la liste des catégories (menu déroulant)
 
-- Affichage détails films :
+- Affichage détails films : 
   - Gestion de boutons "détails" pour accéder aux détails d'un film
   - Fenêtre modale contenant tous les détails du films
 
-- Responsive :
+- Responsive : 
   - Les dimensions des éléments et le nombre de films affichés varient en fonction de la taille d'écran utilisé
   - Gestion d'un bouton voir plus/moins pour afficher/masquer les films lors de l'utilisation d'un petit écran (mobile et tablete)
 
