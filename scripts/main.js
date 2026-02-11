@@ -11,7 +11,6 @@ async function main() {
     await initChosenCategory(nbMoviesInCategory)
     initDetailsButtons()
     initSeeMoreLessBtns()
-    initResizingWindow()
 }
 
 main()
