@@ -19,6 +19,7 @@ Il s'agit d'une application permettant la visualisation en temps réel du classe
   - Meilleurs films (toutes catégories confondues)
   - Meilleurs films d'une catégorie (Sci-Fi ; Adventure)
   - Meilleurs films d'une catégorie choisie parmi la liste des catégories (menu déroulant)
+  - Utilisation d'image générique via https://picsum.photos dans le cas d'un URL d'image invalide
 
 
 - Affichage détails films : 
