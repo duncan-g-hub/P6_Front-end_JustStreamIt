@@ -1,3 +1,8 @@
+/* Feuille de style permettant de modifier le design et la msie en page des éléments sur la page */
+
+
+
+/* Import de la police Oswald via google font */
 @import url("https://fonts.googleapis.com/css2?family=Almendra:ital,wght@0,400;0,700;1,400;1,700&family=Arimo:wght@400..700&family=Oswald:wght@200..700&family=Quintessential&display=swap");
 
 /* Général */

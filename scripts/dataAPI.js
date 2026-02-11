@@ -1,3 +1,7 @@
+// Récupération des données de film contenu dans l'API via des requete fetch
+
+
+
 // Récupération des données json via une requete sur l'API
 async function getData(url) {
     const response = await fetch(url)

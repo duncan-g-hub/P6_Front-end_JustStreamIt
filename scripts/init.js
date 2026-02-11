@@ -1,3 +1,8 @@
+// Ecoute des évenements utilisateurs, liés aux boutons, liste déroulantes.
+// Délcenche des actions qui vont modifier le contenue du DOM
+
+
+
 // Ecouter le changement d'un choix dans la liste des catégories
 async function initChosenCategory(nbMovies) {
     const tagCategoryChoice = document.getElementById("listCategory")

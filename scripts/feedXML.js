@@ -1,11 +1,42 @@
-// Accéder à une image alternative dans le cas ou l'url de l'image issue de l'API est invalide
-async function setAlternativeImage(tagImage, urlImage) {
-    tagImage.src = urlImage
-    // détecte un évenement navigateur dans le cas ou il y a une erreur reseau
-    tagImage.onerror = () => {
-        tagImage.onerror = null
-        tagImage.src = "https://picsum.photos/360/480"
-        }
+// Alimentation du fichier XML selon données API et événements utilisateur
+
+
+
+// Alimenter le code XML qui compose la section des meilleurs films (toute catégories) via l'API
+async function feedBestMovies(nbMovies) {
+    const urlFilterBestMovies = `http://localhost:8000/api/v1/titles/?sort_by=-imdb_score&page_size=${nbMovies+1}`
+    const moviesInfos = await getMoviesInfos(urlFilterBestMovies, nbMovies+1)
+    await feedBestMovie(moviesInfos[0].id)
+    for (i = 1; i < moviesInfos.length; i++){
+        let bestMoviesFrameContent = `
+                <div id="card${i}" class="movieCard">
+                    <img src="" alt="">
+                    <div class="movieBanner">
+                        <h3 class="movieTitle">${moviesInfos[i].title}</h3>
+                        <button class="detailsButton detailsCardButton" data-id="${moviesInfos[i].id}">Détails</button>
+                    </div>
+                </div>`
+        let tagMoviesFrame = document.querySelector("#bestMoviesFrame")
+        tagMoviesFrame.insertAdjacentHTML("beforeend", bestMoviesFrameContent)
+        let tagImage = document.querySelector(`#card${i} img`)
+        setAlternativeImage(tagImage, moviesInfos[i].imageUrl)
+        tagImage.alt = moviesInfos[i].title + " image"
+    }
+}
+
+
+// Alimenter les données de la section du meilleur film à partir de son id via l'API
+async function feedBestMovie(id) {
+    const movieInfos = await getFullMovieInfos(`http://localhost:8000/api/v1/titles/${id}`)
+    const tagTitle = document.querySelector("#movieContent h2")
+    tagTitle.textContent = movieInfos.title
+    const tagSummary = document.querySelector("#movieContent p")
+    tagSummary.textContent = movieInfos.summary
+    const tagImage = document.querySelector("#movieImage img")
+    setAlternativeImage(tagImage, movieInfos.imageUrl)
+    tagImage.alt = movieInfos.title + " image"
+    const tagButton = document.querySelector("#movieContent button")
+    tagButton.dataset.id = movieInfos.id
 }
 
 
@@ -47,41 +78,11 @@ async function feedBestMoviesInCategory(categoryName, whereToAdd, nbMovies) {
 }
 
 
-// Alimenter le code XML qui compose la section des meilleurs films (toute catégories) via l'API
-async function feedBestMovies(nbMovies) {
-    const urlFilterBestMovies = `http://localhost:8000/api/v1/titles/?sort_by=-imdb_score&page_size=${nbMovies+1}`
-    const moviesInfos = await getMoviesInfos(urlFilterBestMovies, nbMovies+1)
-    await feedBestMovie(moviesInfos[0].id)
-    for (i = 1; i < moviesInfos.length; i++){
-        let bestMoviesFrameContent = `
-                <div id="card${i}" class="movieCard">
-                    <img src="" alt="">
-                    <div class="movieBanner">
-                        <h3 class="movieTitle">${moviesInfos[i].title}</h3>
-                        <button class="detailsButton detailsCardButton" data-id="${moviesInfos[i].id}">Détails</button>
-                    </div>
-                </div>`
-        let tagMoviesFrame = document.querySelector("#bestMoviesFrame")
-        tagMoviesFrame.insertAdjacentHTML("beforeend", bestMoviesFrameContent)
-        let tagImage = document.querySelector(`#card${i} img`)
-        setAlternativeImage(tagImage, moviesInfos[i].imageUrl)
-        tagImage.alt = moviesInfos[i].title + " image"
-    }
-}
-
-
-// Alimenter les données de la section du meilleur film à partir de son id via l'API
-async function feedBestMovie(id) {
-    const movieInfos = await getFullMovieInfos(`http://localhost:8000/api/v1/titles/${id}`)
-    const tagTitle = document.querySelector("#movieContent h2")
-    tagTitle.textContent = movieInfos.title
-    const tagSummary = document.querySelector("#movieContent p")
-    tagSummary.textContent = movieInfos.summary
-    const tagImage = document.querySelector("#movieImage img")
-    setAlternativeImage(tagImage, movieInfos.imageUrl)
-    tagImage.alt = movieInfos.title + " image"
-    const tagButton = document.querySelector("#movieContent button")
-    tagButton.dataset.id = movieInfos.id
+// Afficher la fenetre modale
+function displayModalWindow() {
+    const tagModalWindowBg = document.getElementById("modalWindowBackground")
+    tagModalWindowBg.classList.remove("hide")
+    initCloseBtnModalWindow()
 }
 
 
@@ -131,9 +132,12 @@ function showMoviesInCategory(section) {
 }
 
 
-// Afficher la fenetre modale
-function displayModalWindow() {
-    const tagModalWindowBg = document.getElementById("modalWindowBackground")
-    tagModalWindowBg.classList.remove("hide")
-    initCloseBtnModalWindow()
+// Accéder à une image alternative dans le cas ou l'url de l'image issue de l'API est invalide
+async function setAlternativeImage(tagImage, urlImage) {
+    tagImage.src = urlImage
+    // détecte un évenement navigateur dans le cas ou il y a une erreur reseau
+    tagImage.onerror = () => {
+        tagImage.onerror = null
+        tagImage.src = "https://picsum.photos/360/480"
+        }
 }

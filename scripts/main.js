@@ -1,4 +1,7 @@
-// Point d'entrée de l'app
+// Point d'entrée de l'application
+
+
+
 async function main() {    
     displayCategoriesChoice(await getCategories())
     await feedBestMovies(nbMoviesInCategory)
