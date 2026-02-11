@@ -15,30 +15,30 @@ Il s'agit d'une application permettant la visualisation en temps réel du classe
 
 
 - Affichage des films : 
-  - Meileur film (toutes catégories confondues)
+  - Meilleur film (toutes catégories confondues)
   - Meilleurs films (toutes catégories confondues)
   - Meilleurs films d'une catégorie (Sci-Fi ; Adventure)
-  - Meilleurs films d'une catégorie choisie parmis la liste des catégories (menu déroulant)
+  - Meilleurs films d'une catégorie choisie parmi la liste des catégories (menu déroulant)
 
 
 - Affichage détails films : 
   - Gestion de boutons "détails" pour accéder aux détails d'un film
-  - Fenêtre modale contenant tous les détails du films
+  - Fenêtre modale contenant tous les détails du film
 
 
 - Responsive : 
-  - Les dimensions des éléments et le nombre de films affichés varient en fonction de la taille d'écran utilisé
-  - Gestion d'un bouton voir plus/moins pour afficher/masquer les films lors de l'utilisation d'un petit écran (mobile et tablete)
+  - Les dimensions des éléments et le nombre de films affichés varient en fonction de la taille d'écran utilisée
+  - Gestion d'un bouton voir plus/moins pour afficher/masquer les films lors de l'utilisation d'un petit écran (mobile et tablette)
 
 
 ---
 
 ## Architecture
 
-Le projet suit une architecture modulaire avec séparation des responsabilités : 
+Le projet suit une architecture modulaire avec séparation des responsabilités :
 - HTML : Structure sémantique de la page
 - CSS : Mise en forme et responsive design (approche mobile-first)
-- JavaScript : Gestion des appels API, de la logique métier et des événements utilisateur
+- JavaScript : Gestion des appels API (fetch), manipulation dynamique du DOM, logique métier et des événements utilisateur
 - API : Récupération dynamique des données via requêtes HTTP
 
 Le projet respecte les standards W3C.
@@ -101,18 +101,20 @@ cd P6_Front-end_JustStreamIt
 
 ## Exécution de l'application
 
+L’API doit être lancée localement pour que l’application fonctionne correctement.
 Ouvrir le fichier `index.html` dans un navigateur moderne (Chrome, Firefox, Edge).
 
 ---
 
 ## Compatibilité
 
-Testé sur :
-- Google Chrome
-- Mozilla Firefox
-- Microsoft Edge
+Le site a été testé sur les dernières versions stables des navigateurs les plus utilisés :
+- Google Chrome (v145)
+- Mozilla Firefox (v147)
+- Microsoft Edge (v144)
 
-Compatible navigateurs modernes supportant ES2021.
+Compatible avec les navigateurs modernes supportant ES2021.
+Le site respecte les standards HTML5 et CSS3 validés par le validateur W3C, ce qui garantit une compatibilité avec les navigateurs modernes.
 
 ---
 
