@@ -1,8 +1,8 @@
-// Alimentation du fichier XML selon données API et événements utilisateur
+// Alimentation du fichier HTML selon données API et événements utilisateur
 
 
 
-// Alimenter le code XML qui compose la section des meilleurs films (toute catégories) via l'API
+// Alimenter le code HTML qui compose la section des meilleurs films (toute catégories) via l'API
 async function feedBestMovies(nbMovies) {
     const urlFilterBestMovies = `http://localhost:8000/api/v1/titles/?sort_by=-imdb_score&page_size=${nbMovies+1}`
     const moviesInfos = await getMoviesInfos(urlFilterBestMovies, nbMovies+1)
